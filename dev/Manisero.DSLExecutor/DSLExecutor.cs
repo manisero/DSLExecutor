@@ -1,8 +1,18 @@
-﻿namespace Manisero.DSLExecutor
+﻿using System;
+using Manisero.DSLExecutor.Domain.ExpressionsDomain;
+
+namespace Manisero.DSLExecutor
 {
-    // This project can output the Class library as a NuGet Package.
-    // To enable this option, right-click on the project and select the Properties menu item. In the Build tab select "Produce outputs on build".
-    public class DSLExecutor
+    public interface IDSLExecutor
     {
+        TResult ExecuteExpression<TResult>(IExpression<TResult> expression);
+    }
+
+    public class DSLExecutor : IDSLExecutor
+    {
+        public TResult ExecuteExpression<TResult>(IExpression<TResult> expression)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

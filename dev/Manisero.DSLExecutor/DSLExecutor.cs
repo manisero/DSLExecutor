@@ -1,18 +1,26 @@
 ﻿using System;
 using Manisero.DSLExecutor.Domain.ExpressionsDomain;
+using Manisero.DSLExecutor.Runtime;
 
 namespace Manisero.DSLExecutor
 {
     public interface IDSLExecutor
     {
-        TResult ExecuteExpression<TResult>(IExpression<TResult> expression);
+        object ExecuteExpression(IExpression expression);
     }
 
     public class DSLExecutor : IDSLExecutor
     {
-        public TResult ExecuteExpression<TResult>(IExpression<TResult> expression)
+        private readonly Lazy<IExpressionExecutor> _expressionExecutor = new Lazy<IExpressionExecutor>(InitializeExpressionExecutor);
+
+        public object ExecuteExpression(IExpression expression)
         {
-            throw new NotImplementedException();
+            return _expressionExecutor.Value.Execute(expression);
+        }
+
+        private static IExpressionExecutor InitializeExpressionExecutor()
+        {
+            return new ExpressionExecutorFactory().Create();
         }
     }
 }

@@ -3,7 +3,12 @@ using Manisero.DSLExecutor.Domain.ExpressionsDomain;
 
 namespace Manisero.DSLExecutor.Runtime
 {
-    public class ExpressionExecutor
+    public interface IExpressionExecutor
+    {
+        object Execute(IExpression expression);
+    }
+
+    public class ExpressionExecutor : IExpressionExecutor
     {
         private readonly IConstantExpressionExecutor _constantExpressionExecutor;
 

@@ -1,6 +1,10 @@
 ﻿namespace Manisero.DSLExecutor.Domain.FunctionsDomain
 {
-    public interface IFunction<TResult>
+    public interface IFunction
+    {
+    }
+
+    public interface IFunction<TResult> : IFunction
     {
     }
 }

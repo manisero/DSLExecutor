@@ -1,5 +1,6 @@
 ﻿using System;
 using Manisero.DSLExecutor.Runtime.ExpressionExecution.SpecificExpressionExecutors;
+using Manisero.DSLExecutor.Runtime.FunctionExecution;
 
 namespace Manisero.DSLExecutor.Runtime.ExpressionExecution
 {
@@ -15,7 +16,8 @@ namespace Manisero.DSLExecutor.Runtime.ExpressionExecution
             IExpressionExecutor expressionExecutor = null;
 
             expressionExecutor = new ExpressionExecutor(new ConstantExpressionExecutor(),
-                                                        new FunctionExpressionExecutor(),
+                                                        new FunctionExpressionExecutor(new Lazy<IExpressionExecutor>(() => expressionExecutor),
+                                                                                       new FunctionExecutor()),
                                                         new BatchExpressionExecutor(new Lazy<IExpressionExecutor>(() => expressionExecutor)));
 
             return expressionExecutor;

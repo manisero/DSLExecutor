@@ -44,7 +44,7 @@ namespace Manisero.DSLExecutor.Tests.Runtime.ExpressionExecution
         [InlineData(5)]
         public void FunctionExpression___invokes_functionExpressionExecutor(int expressionResult)
         {
-            var expression = new FunctionExpression<EmptyFunction, int>();
+            var expression = new FunctionExpression<FunctionWithoutParameters, int>();
 
             var functionExpressionExecutor = Substitute.For<IFunctionExpressionExecutor>();
             functionExpressionExecutor.Execute(expression)

@@ -2,7 +2,7 @@
 
 namespace Manisero.DSLExecutor.Tests.TestsDomain
 {
-    public class EmptyFunction : IFunction<int>
+    public class FunctionWithoutParameters : IFunction<int>
     {
     }
 }

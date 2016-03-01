@@ -1,0 +1,22 @@
+﻿{
+  "version": "1.0.0-*",
+  "description": "Manisero.DSLExecutor.Tests Class Library",
+  "authors": [ "manisero" ],
+  "tags": [ "" ],
+  "projectUrl": "",
+  "licenseUrl": "",
+
+  "dependencies": {
+    "Manisero.DSLExecutor": "0.0.0",
+    "xunit": "2.1.0",
+    "xunit.runner.dnx": "2.1.0-rc1-build204"
+  },
+
+  "commands": {
+    "test": "xunit.runner.dnx"
+  },
+
+  "frameworks": {
+    "dnx451": { }
+  }
+}

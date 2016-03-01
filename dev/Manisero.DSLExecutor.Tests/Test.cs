@@ -1,4 +1,6 @@
-﻿using Xunit;
+﻿using Manisero.DSLExecutor.Domain.ExpressionsDomain;
+using Manisero.DSLExecutor.Runtime;
+using Xunit;
 
 namespace Manisero.DSLExecutor.Tests
 {
@@ -19,7 +21,16 @@ namespace Manisero.DSLExecutor.Tests
         [Fact]
         public void ClassFromOtherProject()
         {
-            //new ConstantExpressionExecutor()
+            var expression = new ConstantExpression<int>
+            {
+                Value = 1
+            };
+
+            var constantExpressionExecutor = new ConstantExpressionExecutor();
+
+            var result = constantExpressionExecutor.Execute(expression);
+
+            Assert.Equal(1, result);
         }
     }
 }

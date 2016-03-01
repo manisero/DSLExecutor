@@ -7,6 +7,6 @@
   "licenseUrl": "https://github.com/manisero/DSLExecutor/blob/master/LICENSE",
 
   "frameworks": {
-    "net451": { },
+    "dnx46": { }
   }
 }

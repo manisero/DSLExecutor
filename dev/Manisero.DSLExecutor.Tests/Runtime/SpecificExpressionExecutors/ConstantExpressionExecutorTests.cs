@@ -18,12 +18,9 @@ namespace Manisero.DSLExecutor.Tests.Runtime.SpecificExpressionExecutors
         [InlineData(0)]
         [InlineData(1)]
         [InlineData(5)]
-        public void returns_expression_value(int expressionValue)
+        public void returns_expression_Value(int expressionValue)
         {
-            var expression = new ConstantExpression<int>
-                {
-                    Value = expressionValue
-                };
+            var expression = new ConstantExpression<int> { Value = expressionValue };
 
             var result = Act(expression);
 

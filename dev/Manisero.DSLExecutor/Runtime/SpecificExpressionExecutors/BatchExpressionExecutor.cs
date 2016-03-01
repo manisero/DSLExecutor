@@ -14,9 +14,12 @@ namespace Manisero.DSLExecutor.Runtime.SpecificExpressionExecutors
 
         public object Execute(IBatchExpression expression)
         {
-            foreach (var sideExpression in expression.SideExpressions)
+            if (expression.SideExpressions != null)
             {
-                _expressionExecutorFactory.Value.Execute(sideExpression);
+                foreach (var sideExpression in expression.SideExpressions)
+                {
+                    _expressionExecutorFactory.Value.Execute(sideExpression);
+                }
             }
 
             return _expressionExecutorFactory.Value.Execute(expression.ResultExpression);

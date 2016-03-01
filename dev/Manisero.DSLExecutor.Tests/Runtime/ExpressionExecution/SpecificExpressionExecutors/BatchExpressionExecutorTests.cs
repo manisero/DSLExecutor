@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
 using Manisero.DSLExecutor.Domain.ExpressionsDomain;
-using Manisero.DSLExecutor.Runtime;
-using Manisero.DSLExecutor.Runtime.SpecificExpressionExecutors;
+using Manisero.DSLExecutor.Runtime.ExpressionExecution;
+using Manisero.DSLExecutor.Runtime.ExpressionExecution.SpecificExpressionExecutors;
 using Manisero.DSLExecutor.Tests.TestsDomain;
 using NSubstitute;
 using Xunit;
 
-namespace Manisero.DSLExecutor.Tests.Runtime.SpecificExpressionExecutors
+namespace Manisero.DSLExecutor.Tests.Runtime.ExpressionExecution.SpecificExpressionExecutors
 {
     public class BatchExpressionExecutorTests
     {

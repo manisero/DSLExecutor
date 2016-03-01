@@ -1,7 +1,7 @@
 ﻿using System;
 using Manisero.DSLExecutor.Domain.ExpressionsDomain;
 
-namespace Manisero.DSLExecutor.Runtime.SpecificExpressionExecutors
+namespace Manisero.DSLExecutor.Runtime.ExpressionExecution.SpecificExpressionExecutors
 {
     public interface IFunctionExpressionExecutor
     {

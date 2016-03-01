@@ -1,8 +1,8 @@
 ﻿using System;
 using Manisero.DSLExecutor.Domain.ExpressionsDomain;
-using Manisero.DSLExecutor.Runtime.SpecificExpressionExecutors;
+using Manisero.DSLExecutor.Runtime.ExpressionExecution.SpecificExpressionExecutors;
 
-namespace Manisero.DSLExecutor.Runtime
+namespace Manisero.DSLExecutor.Runtime.ExpressionExecution
 {
     public interface IExpressionExecutor
     {

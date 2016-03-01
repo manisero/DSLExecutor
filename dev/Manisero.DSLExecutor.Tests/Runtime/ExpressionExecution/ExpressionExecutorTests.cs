@@ -1,13 +1,13 @@
 ﻿using System;
 using FluentAssertions;
 using Manisero.DSLExecutor.Domain.ExpressionsDomain;
-using Manisero.DSLExecutor.Runtime;
-using Manisero.DSLExecutor.Runtime.SpecificExpressionExecutors;
+using Manisero.DSLExecutor.Runtime.ExpressionExecution;
+using Manisero.DSLExecutor.Runtime.ExpressionExecution.SpecificExpressionExecutors;
 using Manisero.DSLExecutor.Tests.TestsDomain;
 using NSubstitute;
 using Xunit;
 
-namespace Manisero.DSLExecutor.Tests.Runtime
+namespace Manisero.DSLExecutor.Tests.Runtime.ExpressionExecution
 {
     public class ExpressionExecutorTests
     {

@@ -1,4 +1,5 @@
-﻿using Manisero.DSLExecutor.Domain.ExpressionsDomain;
+﻿using FluentAssertions;
+using Manisero.DSLExecutor.Domain.ExpressionsDomain;
 using Manisero.DSLExecutor.Runtime;
 using Xunit;
 
@@ -17,16 +18,16 @@ namespace Manisero.DSLExecutor.Tests.Runtime
         [InlineData(0)]
         [InlineData(1)]
         [InlineData(5)]
-        public void returns_expression_value(int value)
+        public void returns_expression_value(int expressionValue)
         {
             var expression = new ConstantExpression<int>
                 {
-                    Value = value
+                    Value = expressionValue
                 };
 
             var result = Act(expression);
 
-            Assert.Equal(value, result);
+            result.Should().Be(expressionValue);
         }
     }
 }

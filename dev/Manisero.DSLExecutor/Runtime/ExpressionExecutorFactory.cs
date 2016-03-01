@@ -1,4 +1,5 @@
-﻿using Manisero.DSLExecutor.Runtime.SpecificExpressionExecutors;
+﻿using System;
+using Manisero.DSLExecutor.Runtime.SpecificExpressionExecutors;
 
 namespace Manisero.DSLExecutor.Runtime
 {
@@ -11,7 +12,13 @@ namespace Manisero.DSLExecutor.Runtime
     {
         public IExpressionExecutor Create()
         {
-            return new ExpressionExecutor(new ConstantExpressionExecutor());
+            IExpressionExecutor expressionExecutor = null;
+
+            expressionExecutor = new ExpressionExecutor(new ConstantExpressionExecutor(),
+                                                        new FunctionExpressionExecutor(),
+                                                        new BatchExpressionExecutor(new Lazy<IExpressionExecutor>(() => expressionExecutor)));
+
+            return expressionExecutor;
         }
     }
 }

@@ -12,10 +12,16 @@ namespace Manisero.DSLExecutor.Runtime
     public class ExpressionExecutor : IExpressionExecutor
     {
         private readonly IConstantExpressionExecutor _constantExpressionExecutor;
+        private readonly IFunctionExpressionExecutor _functionExpressionExecutor;
+        private readonly IBatchExpressionExecutor _batchExpressionExecutor;
 
-        public ExpressionExecutor(IConstantExpressionExecutor constantExpressionExecutor)
+        public ExpressionExecutor(IConstantExpressionExecutor constantExpressionExecutor,
+                                  IFunctionExpressionExecutor functionExpressionExecutor,
+                                  IBatchExpressionExecutor batchExpressionExecutor)
         {
             _constantExpressionExecutor = constantExpressionExecutor;
+            _functionExpressionExecutor = functionExpressionExecutor;
+            _batchExpressionExecutor = batchExpressionExecutor;
         }
 
         public object Execute(IExpression expression)
@@ -25,6 +31,20 @@ namespace Manisero.DSLExecutor.Runtime
             if (constantExpression != null)
             {
                 return _constantExpressionExecutor.Execute(constantExpression);
+            }
+
+            var functionExpression = expression as IFunctionExpression;
+
+            if (functionExpression != null)
+            {
+                return _functionExpressionExecutor.Execute(functionExpression);
+            }
+
+            var batchExpression = expression as IBatchExpression;
+
+            if (batchExpression != null)
+            {
+                return _batchExpressionExecutor.Execute(batchExpression);
             }
 
             throw new NotSupportedException($"Not supported expression type: {expression.GetType().FullName}.");

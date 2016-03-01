@@ -3,7 +3,12 @@ using Manisero.DSLExecutor.Domain.ExpressionsDomain;
 
 namespace Manisero.DSLExecutor.Runtime.SpecificExpressionExecutors
 {
-    public class BatchExpressionExecutor
+    public interface IBatchExpressionExecutor
+    {
+        object Execute(IBatchExpression expression);
+    }
+
+    public class BatchExpressionExecutor : IBatchExpressionExecutor
     {
         private readonly Lazy<IExpressionExecutor> _expressionExecutorFactory;
 

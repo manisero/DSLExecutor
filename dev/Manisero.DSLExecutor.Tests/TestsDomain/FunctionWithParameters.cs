@@ -6,6 +6,6 @@ namespace Manisero.DSLExecutor.Tests.TestsDomain
     {
         public int Parameter1 { get; set; }
 
-        public int Parameter2 { get; set; }
+        public string Parameter2 { get; set; }
     }
 }

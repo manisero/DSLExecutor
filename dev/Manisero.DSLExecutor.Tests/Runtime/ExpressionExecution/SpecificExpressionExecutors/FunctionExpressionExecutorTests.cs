@@ -23,21 +23,35 @@ namespace Manisero.DSLExecutor.Tests.Runtime.ExpressionExecution.SpecificExpress
             return executor.Execute(expression);
         }
 
-        // TODO: Cover cases mentioned in FunctionExpressionExecutor
-        // TODO: Cover null ArgumentExpressions results
+        [Theory]
+        [InlineData(0)]
+        [InlineData(1)]
+        [InlineData(5)]
+        public void returns_functionExecutor_result(int functionExecutorResult)
+        {
+            var expression = new FunctionExpression<FunctionWithoutParameters, int>();
+
+            var functionExecutor = Substitute.For<IFunctionExecutor>();
+            functionExecutor.Execute(Arg.Any<FunctionWithoutParameters>())
+                            .Returns(functionExecutorResult);
+
+            var result = Act(expression, functionExecutor: functionExecutor);
+
+            result.Should().Be(functionExecutorResult);
+        }
 
         [Theory]
-        [InlineData(0, 1)]
-        [InlineData(1, 2)]
-        [InlineData(5, 6)]
-        public void passes_function_with_filled_parameters_to_functionExecutor(int argument1Value, int argument2Value)
+        [InlineData(0, null)]
+        [InlineData(1, "a")]
+        [InlineData(5, "b")]
+        public void function_with_parameters___passes_function_with_filled_parameters_to_functionExecutor(int argument1Value, string argument2Value)
         {
             var expression = new FunctionExpression<FunctionWithParameters, int>
                 {
                     ArgumentExpressions = new Dictionary<string, IExpression>
                         {
-                            [nameof(FunctionWithParameters.Parameter1)] = new EmptyExpression(),
-                            [nameof(FunctionWithParameters.Parameter2)] = new EmptyExpression()
+                            [nameof(FunctionWithParameters.Parameter1)] = new ConstantExpression<int>(),
+                            [nameof(FunctionWithParameters.Parameter2)] = new ConstantExpression<string>()
                         }
                 };
 
@@ -66,23 +80,6 @@ namespace Manisero.DSLExecutor.Tests.Runtime.ExpressionExecution.SpecificExpress
             executedFunction.Parameter2.Should().Be(argument2Value);
         }
 
-        [Theory]
-        [InlineData(0)]
-        [InlineData(1)]
-        [InlineData(5)]
-        public void returns_functionExecutor_result(int functionExecutorResult)
-        {
-            var expression = new FunctionExpression<FunctionWithoutParameters, int>();
-
-            var functionExecutor = Substitute.For<IFunctionExecutor>();
-            functionExecutor.Execute(Arg.Any<FunctionWithoutParameters>())
-                            .Returns(functionExecutorResult);
-
-            var result = Act(expression, functionExecutor: functionExecutor);
-
-            result.Should().Be(functionExecutorResult);
-        }
-
         [Fact]
         public void executes_ArgumentExpressions_in_order()
         {
@@ -90,8 +87,8 @@ namespace Manisero.DSLExecutor.Tests.Runtime.ExpressionExecution.SpecificExpress
                 {
                     ArgumentExpressions = new Dictionary<string, IExpression>
                         {
-                            [nameof(FunctionWithParameters.Parameter2)] = new EmptyExpression(),
-                            [nameof(FunctionWithParameters.Parameter1)] = new EmptyExpression()
+                            [nameof(FunctionWithParameters.Parameter2)] = new ConstantExpression<string>(),
+                            [nameof(FunctionWithParameters.Parameter1)] = new ConstantExpression<int>()
                         }
                 };
 
@@ -110,7 +107,7 @@ namespace Manisero.DSLExecutor.Tests.Runtime.ExpressionExecution.SpecificExpress
                               .Returns(_ =>
                                            {
                                                executionOrder.Add(1);
-                                               return 0;
+                                               return null;
                                            });
 
             Act(expression, expressionExecutor: expressionExecutor);

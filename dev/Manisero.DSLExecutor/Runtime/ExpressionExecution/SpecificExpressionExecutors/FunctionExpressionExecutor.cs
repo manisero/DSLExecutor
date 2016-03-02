@@ -30,7 +30,8 @@ namespace Manisero.DSLExecutor.Runtime.ExpressionExecution.SpecificExpressionExe
 
             if ((expression.ArgumentExpressions?.Count ?? 0) != functionProperties.Length)
             {
-                throw new InvalidOperationException("TODO: Handle and test this case");
+                // TODO: Unit-test this case
+                throw new InvalidOperationException("Arguments number does not match the function's parameters number.");
             }
 
             var function = (IFunction)Activator.CreateInstance(functionType);
@@ -51,18 +52,20 @@ namespace Manisero.DSLExecutor.Runtime.ExpressionExecution.SpecificExpressionExe
 
                 if (!expression.ArgumentExpressions.TryGetValue(property.Name, out argumentExpression))
                 {
-                    throw new InvalidOperationException("TODO: Handle and test this case");
+                    // TODO: Unit-test this case
+                    throw new InvalidOperationException($"Argument Expression for '{property.Name}' parameter not found.");
+                }
+
+                if (!property.PropertyType.IsAssignableFrom(argumentExpression.ResultType))
+                {
+                    // TODO: Unit-test this case
+                    throw new InvalidOperationException($"Result Type of Argument Expression for '{property.Name}' parameter is invalid. Expected: '{property.PropertyType}' or its child. Actual: '{argumentExpression.ResultType.FullName}'.");
                 }
 
                 var argument = _expressionExecutorFactory.Value.Execute(argumentExpression);
 
                 if (argument != null)
                 {
-                    if (!property.PropertyType.IsInstanceOfType(argument))
-                    {
-                        throw new InvalidOperationException("TODO: Handle and test this case");
-                    }
-
                     property.SetValue(function, argument);
                 }
             }

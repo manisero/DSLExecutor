@@ -11,11 +11,9 @@ namespace Manisero.DSLExecutor.Domain.ExpressionsDomain
         IDictionary<string, IExpression> ArgumentExpressions { get; }
     }
 
-    public class FunctionExpression<TFunction, TResult> : IFunctionExpression, IExpression<TResult>
+    public class FunctionExpression<TFunction, TResult> : Expression<TResult>, IFunctionExpression
         where TFunction : IFunction<TResult>
     {
-        public Type ResultType => typeof(TResult);
-
         public Type FunctionType => typeof(TFunction);
 
         public IDictionary<string, IExpression> ArgumentExpressions { get; set; }

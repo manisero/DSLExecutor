@@ -8,8 +8,7 @@ namespace Manisero.DSLExecutor.Tests.TestsDomain
         public Type ResultType => typeof(object);
     }
 
-    public class EmptyExpression<TResult> : IExpression<TResult>
+    public class EmptyExpression<TResult> : Expression<TResult>
     {
-        public Type ResultType => typeof(TResult);
     }
 }

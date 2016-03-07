@@ -7,7 +7,8 @@ namespace Manisero.DSLExecutor.Domain.ExpressionsDomain
         Type ResultType { get; }
     }
 
-    public interface IExpression<TResult> : IExpression
+    public abstract class Expression<TResult> : IExpression
     {
+        public Type ResultType => typeof(TResult);
     }
 }

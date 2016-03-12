@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 using Manisero.DSLExecutor.Domain.ExpressionsDomain;
 using Manisero.DSLExecutor.Domain.FunctionsDomain;
+using Manisero.DSLExecutor.Extensions;
 using Manisero.DSLExecutor.Runtime.FunctionExecution;
 
 namespace Manisero.DSLExecutor.Runtime.ExpressionExecution.SpecificExpressionExecutors
@@ -16,41 +18,59 @@ namespace Manisero.DSLExecutor.Runtime.ExpressionExecution.SpecificExpressionExe
         private readonly Lazy<IExpressionExecutor> _expressionExecutorFactory;
         private readonly IFunctionExecutor _functionExecutor;
 
+        private readonly Lazy<MethodInfo> _executeGenericMethod;
+
         public FunctionExpressionExecutor(Lazy<IExpressionExecutor> expressionExecutorFactory,
                                           IFunctionExecutor functionExecutor)
         {
             _expressionExecutorFactory = expressionExecutorFactory;
             _functionExecutor = functionExecutor;
+
+            _executeGenericMethod = new Lazy<MethodInfo>(() => GetType().GetMethod(nameof(ExecuteGeneric),
+                                                                                   BindingFlags.Instance | BindingFlags.NonPublic));
         }
 
         public object Execute(IFunctionExpression expression)
         {
             var functionType = expression.FunctionType;
-            var functionProperties = functionType.GetProperties();
+            var functionDefinitionImplementation = functionType.GetGenericInterfaceDefinitionImplementation(typeof(IFunction<>));
+            var resultType = functionDefinitionImplementation.GetGenericArguments()[0];
 
-            if ((expression.ArgumentExpressions?.Count ?? 0) != functionProperties.Length)
+            return _executeGenericMethod.Value
+                                        .MakeGenericMethod(functionType, resultType)
+                                        .Invoke(this,
+                                                new object[] { expression.ArgumentExpressions });
+        }
+
+        private TResult ExecuteGeneric<TFunction, TResult>(IDictionary<string, IExpression> argumentExpressions)
+            where TFunction : IFunction<TResult>
+        {
+            var function = Activator.CreateInstance<TFunction>();
+            FillFunctionParameters(function, argumentExpressions);
+
+            return _functionExecutor.Execute<TFunction, TResult>(function);
+        }
+
+        private void FillFunctionParameters<TFunction>(TFunction function, IDictionary<string, IExpression> argumentExpressions)
+        {
+            var functionProperties = typeof(TFunction).GetProperties();
+
+            if ((argumentExpressions?.Count ?? 0) != functionProperties.Length)
             {
                 // TODO: Unit-test this case
                 throw new InvalidOperationException("Arguments number does not match the function's parameters number.");
             }
 
-            var function = (IFunction)Activator.CreateInstance(functionType);
-
-            if (functionProperties.Length > 0)
+            if (functionProperties.Length == 0)
             {
-                FillFunctionParameters(expression, function, functionProperties);
+                return;
             }
 
-            return _functionExecutor.Execute(function);
-        }
-
-        private void FillFunctionParameters(IFunctionExpression expression, IFunction function, PropertyInfo[] functionProperties)
-        {
             foreach (var property in functionProperties)
             {
                 IExpression argumentExpression;
 
-                if (!expression.ArgumentExpressions.TryGetValue(property.Name, out argumentExpression))
+                if (!argumentExpressions.TryGetValue(property.Name, out argumentExpression))
                 {
                     // TODO: Unit-test this case
                     throw new InvalidOperationException($"Argument Expression for '{property.Name}' parameter not found.");

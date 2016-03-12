@@ -16,7 +16,7 @@ namespace Manisero.DSLExecutor.Extensions
             }
         }
 
-        private static Type GetGenericInterfaceDefinitionImplementation(this Type type, Type interfaceDefinition)
+        public static Type GetGenericInterfaceDefinitionImplementation(this Type type, Type interfaceDefinition)
         {
             if (type.IsInterface && type.IsConstructedGenericType && type.GetGenericTypeDefinition() == interfaceDefinition)
             {
@@ -36,7 +36,7 @@ namespace Manisero.DSLExecutor.Extensions
             return null;
         }
 
-        private static Type GetGenericClassDefinitionImplementation(this Type type, Type classDefinition)
+        public static Type GetGenericClassDefinitionImplementation(this Type type, Type classDefinition)
         {
             if (type == typeof(object))
             {

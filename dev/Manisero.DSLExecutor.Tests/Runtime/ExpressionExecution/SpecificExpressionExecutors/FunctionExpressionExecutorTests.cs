@@ -32,7 +32,7 @@ namespace Manisero.DSLExecutor.Tests.Runtime.ExpressionExecution.SpecificExpress
             var expression = new FunctionExpression<FunctionWithoutParameters, int>();
 
             var functionExecutor = Substitute.For<IFunctionExecutor>();
-            functionExecutor.Execute(Arg.Any<FunctionWithoutParameters>())
+            functionExecutor.Execute<FunctionWithoutParameters, int>(Arg.Any<FunctionWithoutParameters>())
                             .Returns(functionExecutorResult);
 
             var result = Act(expression, functionExecutor: functionExecutor);
@@ -66,7 +66,7 @@ namespace Manisero.DSLExecutor.Tests.Runtime.ExpressionExecution.SpecificExpress
             FunctionWithParameters executedFunction = null;
 
             var functionExecutor = Substitute.For<IFunctionExecutor>();
-            functionExecutor.Execute(Arg.Any<FunctionWithParameters>())
+            functionExecutor.Execute<FunctionWithParameters, int>(Arg.Any<FunctionWithParameters>())
                             .Returns(callInfo =>
                                          {
                                              executedFunction = callInfo.Arg<FunctionWithParameters>();

@@ -6,7 +6,8 @@ namespace Manisero.DSLExecutor.Runtime.FunctionExecution
 {
     public interface IFunctionExecutor
     {
-        object Execute(IFunction function);
+        TResult Execute<TFunction, TResult>(TFunction function)
+            where TFunction : IFunction<TResult>;
     }
 
     public class FunctionExecutor : IFunctionExecutor
@@ -21,7 +22,8 @@ namespace Manisero.DSLExecutor.Runtime.FunctionExecution
             _functionHandlerResolver = functionHandlerResolver;
         }
 
-        public object Execute(IFunction function)
+        public TResult Execute<TFunction, TResult>(TFunction function)
+            where TFunction : IFunction<TResult>
         {
             var handlerType = _functionHandlerTypeResolver.Resolve(function.GetType());
 

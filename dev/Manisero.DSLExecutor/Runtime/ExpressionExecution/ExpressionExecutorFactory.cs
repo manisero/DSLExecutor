@@ -19,7 +19,7 @@ namespace Manisero.DSLExecutor.Runtime.ExpressionExecution
             IExpressionExecutor expressionExecutor = null;
 
             expressionExecutor = new ExpressionExecutor(new ConstantExpressionExecutor(),
-                                                        new FunctionExpressionExecutor(new Lazy<IExpressionExecutor>(() => expressionExecutor),
+                                                        new FunctionExpressionExecutor(new FunctionParametersFiller(new Lazy<IExpressionExecutor>(() => expressionExecutor)),
                                                                                        new FunctionExecutor(new DictionarySourcedFunctionHandlerTypeResolver(functionTypeToHandlerTypeMap),
                                                                                                             new ActivatorUsingFunctionHandlerResolver())),
                                                         new BatchExpressionExecutor(new Lazy<IExpressionExecutor>(() => expressionExecutor)));

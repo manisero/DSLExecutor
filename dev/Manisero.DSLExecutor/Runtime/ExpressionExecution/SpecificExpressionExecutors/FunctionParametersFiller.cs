@@ -5,7 +5,12 @@ using Manisero.DSLExecutor.Domain.ExpressionsDomain;
 
 namespace Manisero.DSLExecutor.Runtime.ExpressionExecution.SpecificExpressionExecutors
 {
-    public class FunctionParametersFiller
+    public interface IFunctionParametersFiller
+    {
+        void Fill<TFunction>(TFunction function, IDictionary<string, IExpression> argumentExpressions);
+    }
+
+    public class FunctionParametersFiller : IFunctionParametersFiller
     {
         private readonly Lazy<IExpressionExecutor> _expressionExecutorFactory;
 

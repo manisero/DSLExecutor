@@ -13,7 +13,8 @@ namespace Manisero.DSLExecutor.Tests.DSLExecutorTests
             var functionTypeToHandlerTypeMap = new Dictionary<Type, Type>
                 {
                     [typeof(AddFunction)] = typeof(AddFunctionHandler),
-                    [typeof(SubstractFunction)] = typeof(SubstractFunctionHandler)
+                    [typeof(SubstractFunction)] = typeof(SubstractFunctionHandler),
+                    [typeof(LogFunction)] = typeof(LogFunctionHandler)
                 };
 
             var dslExecutor = new DSLExecutor(functionTypeToHandlerTypeMap);
@@ -81,6 +82,36 @@ namespace Manisero.DSLExecutor.Tests.DSLExecutorTests
             result.Should().Be(a + b - c);
         }
 
-        // TODO: Add more tests
+        [Theory]
+        [InlineData("log1", "log2", 3)]
+        public void batch_expression(string log1, string log2, int constant)
+        {
+            var expression = new BatchExpression<int>
+                {
+                    SideExpressions = new IExpression[]
+                        {
+                            new FunctionExpression<LogFunction, Domain.FunctionsDomain.Void>
+                                {
+                                    ArgumentExpressions = new Dictionary<string, IExpression>
+                                        {
+                                            [nameof(LogFunction.Log)] = new ConstantExpression<string> { Value = log1 }
+                                        }
+                                },
+                            new FunctionExpression<LogFunction, Domain.FunctionsDomain.Void>
+                                {
+                                    ArgumentExpressions = new Dictionary<string, IExpression>
+                                        {
+                                            [nameof(LogFunction.Log)] = new ConstantExpression<string> { Value = log2 }
+                                        }
+                                }
+                        },
+                    ResultExpression = new ConstantExpression<int> { Value = constant }
+                };
+
+            var result = Act(expression);
+
+            result.Should().Be(constant);
+            LogStore.GetLog().Should().Equal(log1, log2);
+        }
     }
 }

@@ -7,7 +7,6 @@ namespace Manisero.DSLExecutor.Tests.DSLExecutorTests
     public class AddFunction : IFunction<int>
     {
         public int A { get; set; }
-
         public int B { get; set; }
     }
 
@@ -24,7 +23,6 @@ namespace Manisero.DSLExecutor.Tests.DSLExecutorTests
     public class SubstractFunction : IFunction<int>
     {
         public int A { get; set; }
-
         public int B { get; set; }
     }
 
@@ -33,6 +31,23 @@ namespace Manisero.DSLExecutor.Tests.DSLExecutorTests
         public int Handle(SubstractFunction function)
         {
             return function.A - function.B;
+        }
+    }
+
+    // AddAndStore
+
+    public class LogFunction : IFunction<Void>
+    {
+        public string Log { get; set; }
+    }
+
+    public class LogFunctionHandler : IFunctionHandler<LogFunction, Void>
+    {
+        public Void Handle(LogFunction function)
+        {
+            LogStore.Log(function.Log);
+
+            return Void.Value;
         }
     }
 }

@@ -1,0 +1,24 @@
+﻿{
+  "version": "1.0.0-*",
+  "description": "Manisero.DSLExecutor.Parser.Json.Tests Class Library",
+  "authors": [ "manisero" ],
+  "tags": [ "" ],
+  "projectUrl": "",
+  "licenseUrl": "",
+
+  "dependencies": {
+    "FluentAssertions": "4.2.2",
+    "Manisero.DSLExecutor.Parser.Json": "0.0.0",
+    "NSubstitute": "1.9.2",
+    "xunit": "2.1.0",
+    "xunit.runner.dnx": "2.1.0-rc1-build204"
+  },
+
+  "commands": {
+    "test": "xunit.runner.dnx"
+  },
+
+  "frameworks": {
+    "dnx46": { }
+  }
+}

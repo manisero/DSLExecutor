@@ -1,6 +1,6 @@
 ﻿using Manisero.DSLExecutor.Domain.FunctionsDomain;
 
-namespace Manisero.DSLExecutor.Runtime.ExpressionExecution.SpecificExpressionExecution.FunctionExpressionExecution
+namespace Manisero.DSLExecutor.ExpressionExecution.SpecificExpressionExecution.FunctionExecution
 {
     public interface IFunctionHandlerResolver
     {

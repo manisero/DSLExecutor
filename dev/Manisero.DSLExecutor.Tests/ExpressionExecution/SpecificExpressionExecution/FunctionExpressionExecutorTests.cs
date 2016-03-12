@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using FluentAssertions;
 using Manisero.DSLExecutor.Domain.ExpressionsDomain;
 using Manisero.DSLExecutor.Domain.FunctionsDomain;
-using Manisero.DSLExecutor.Runtime.ExpressionExecution.SpecificExpressionExecution;
-using Manisero.DSLExecutor.Runtime.ExpressionExecution.SpecificExpressionExecution.FunctionExpressionExecution;
+using Manisero.DSLExecutor.ExpressionExecution.SpecificExpressionExecution;
+using Manisero.DSLExecutor.ExpressionExecution.SpecificExpressionExecution.FunctionExecution;
 using Manisero.DSLExecutor.Tests.TestsDomain;
 using NSubstitute;
 using Xunit;
 
-namespace Manisero.DSLExecutor.Tests.Runtime.ExpressionExecution.SpecificExpressionExecution
+namespace Manisero.DSLExecutor.Tests.ExpressionExecution.SpecificExpressionExecution
 {
     public class FunctionExpressionExecutorTests
     {

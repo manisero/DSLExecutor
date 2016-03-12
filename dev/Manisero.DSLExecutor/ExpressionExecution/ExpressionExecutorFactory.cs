@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using Manisero.DSLExecutor.Runtime.ExpressionExecution.SpecificExpressionExecution;
-using Manisero.DSLExecutor.Runtime.ExpressionExecution.SpecificExpressionExecution.FunctionExpressionExecution;
-using Manisero.DSLExecutor.Runtime.ExpressionExecution.SpecificExpressionExecution.FunctionExpressionExecution.FunctionHandlerResolvers;
+using Manisero.DSLExecutor.ExpressionExecution.SpecificExpressionExecution;
+using Manisero.DSLExecutor.ExpressionExecution.SpecificExpressionExecution.FunctionExecution;
+using Manisero.DSLExecutor.ExpressionExecution.SpecificExpressionExecution.FunctionExecution.FunctionHandlerResolvers;
 
-namespace Manisero.DSLExecutor.Runtime.ExpressionExecution
+namespace Manisero.DSLExecutor.ExpressionExecution
 {
     public interface IExpressionExecutorFactory
     {

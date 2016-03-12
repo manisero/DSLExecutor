@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Reflection;
 using Manisero.DSLExecutor.Domain.ExpressionsDomain;
 using Manisero.DSLExecutor.Domain.FunctionsDomain;
+using Manisero.DSLExecutor.ExpressionExecution.SpecificExpressionExecution.FunctionExecution;
 using Manisero.DSLExecutor.Extensions;
-using Manisero.DSLExecutor.Runtime.ExpressionExecution.SpecificExpressionExecution.FunctionExpressionExecution;
 
-namespace Manisero.DSLExecutor.Runtime.ExpressionExecution.SpecificExpressionExecution
+namespace Manisero.DSLExecutor.ExpressionExecution.SpecificExpressionExecution
 {
     public interface IFunctionExpressionExecutor
     {

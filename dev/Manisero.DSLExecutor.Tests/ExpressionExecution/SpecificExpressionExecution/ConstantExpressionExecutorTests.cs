@@ -1,9 +1,9 @@
 ﻿using FluentAssertions;
 using Manisero.DSLExecutor.Domain.ExpressionsDomain;
-using Manisero.DSLExecutor.Runtime.ExpressionExecution.SpecificExpressionExecution;
+using Manisero.DSLExecutor.ExpressionExecution.SpecificExpressionExecution;
 using Xunit;
 
-namespace Manisero.DSLExecutor.Tests.Runtime.ExpressionExecution.SpecificExpressionExecution
+namespace Manisero.DSLExecutor.Tests.ExpressionExecution.SpecificExpressionExecution
 {
     public class ConstantExpressionExecutorTests
     {

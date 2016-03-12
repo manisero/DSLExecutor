@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Manisero.DSLExecutor.Domain.FunctionsDomain;
 
-namespace Manisero.DSLExecutor.Runtime.ExpressionExecution.SpecificExpressionExecution.FunctionExpressionExecution.FunctionHandlerResolvers
+namespace Manisero.DSLExecutor.ExpressionExecution.SpecificExpressionExecution.FunctionExecution.FunctionHandlerResolvers
 {
     public class DictionarySourcedActivatorUsingFunctionHandlerResolver : IFunctionHandlerResolver
     {

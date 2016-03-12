@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using Manisero.DSLExecutor.Domain.ExpressionsDomain;
 
-namespace Manisero.DSLExecutor.Runtime.ExpressionExecution.SpecificExpressionExecutors
+namespace Manisero.DSLExecutor.Runtime.ExpressionExecution.SpecificExpressionExecution.FunctionExpressionExecution
 {
     public interface IFunctionParametersFiller
     {

@@ -2,7 +2,7 @@
 using FluentAssertions;
 using Manisero.DSLExecutor.Domain.ExpressionsDomain;
 using Manisero.DSLExecutor.Runtime.ExpressionExecution;
-using Manisero.DSLExecutor.Runtime.ExpressionExecution.SpecificExpressionExecutors;
+using Manisero.DSLExecutor.Runtime.ExpressionExecution.SpecificExpressionExecution;
 using Manisero.DSLExecutor.Tests.TestsDomain;
 using NSubstitute;
 using Xunit;

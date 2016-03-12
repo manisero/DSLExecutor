@@ -4,9 +4,10 @@ using System.Reflection;
 using Manisero.DSLExecutor.Domain.ExpressionsDomain;
 using Manisero.DSLExecutor.Domain.FunctionsDomain;
 using Manisero.DSLExecutor.Extensions;
+using Manisero.DSLExecutor.Runtime.ExpressionExecution.SpecificExpressionExecution.FunctionExpressionExecution;
 using Manisero.DSLExecutor.Runtime.FunctionExecution;
 
-namespace Manisero.DSLExecutor.Runtime.ExpressionExecution.SpecificExpressionExecutors
+namespace Manisero.DSLExecutor.Runtime.ExpressionExecution.SpecificExpressionExecution
 {
     public interface IFunctionExpressionExecutor
     {

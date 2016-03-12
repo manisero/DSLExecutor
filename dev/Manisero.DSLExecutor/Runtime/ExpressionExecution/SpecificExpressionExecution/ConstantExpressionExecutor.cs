@@ -1,6 +1,6 @@
 ﻿using Manisero.DSLExecutor.Domain.ExpressionsDomain;
 
-namespace Manisero.DSLExecutor.Runtime.ExpressionExecution.SpecificExpressionExecutors
+namespace Manisero.DSLExecutor.Runtime.ExpressionExecution.SpecificExpressionExecution
 {
     public interface IConstantExpressionExecutor
     {

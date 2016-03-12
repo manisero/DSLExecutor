@@ -1,6 +1,6 @@
 ﻿using System;
 using Manisero.DSLExecutor.Domain.ExpressionsDomain;
-using Manisero.DSLExecutor.Runtime.ExpressionExecution.SpecificExpressionExecutors;
+using Manisero.DSLExecutor.Runtime.ExpressionExecution.SpecificExpressionExecution;
 
 namespace Manisero.DSLExecutor.Runtime.ExpressionExecution
 {

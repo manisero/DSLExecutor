@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using FluentAssertions;
 using Manisero.DSLExecutor.Domain.ExpressionsDomain;
 using Manisero.DSLExecutor.Runtime.ExpressionExecution;
-using Manisero.DSLExecutor.Runtime.ExpressionExecution.SpecificExpressionExecutors;
+using Manisero.DSLExecutor.Runtime.ExpressionExecution.SpecificExpressionExecution.FunctionExpressionExecution;
 using Manisero.DSLExecutor.Tests.TestsDomain;
 using NSubstitute;
 using Xunit;
-using FluentAssertions;
 
-namespace Manisero.DSLExecutor.Tests.Runtime.ExpressionExecution.SpecificExpressionExecutors
+namespace Manisero.DSLExecutor.Tests.Runtime.ExpressionExecution.SpecificExpressionExecution.FunctionExpressionExecution
 {
     public class FunctionParametersFillerTests
     {

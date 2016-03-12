@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Manisero.DSLExecutor.Domain.ExpressionsDomain;
 using Manisero.DSLExecutor.Runtime.ExpressionExecution;
 
@@ -11,16 +12,21 @@ namespace Manisero.DSLExecutor
 
     public class DSLExecutor : IDSLExecutor
     {
-        private readonly Lazy<IExpressionExecutor> _expressionExecutor = new Lazy<IExpressionExecutor>(InitializeExpressionExecutor);
+        private readonly Lazy<IExpressionExecutor> _expressionExecutor;
+
+        public DSLExecutor(IDictionary<Type, Type> functionTypeToHandlerTypeMap) // TODO: Move functionTypeToHandlerTypeMap to some configuration
+        {
+            _expressionExecutor = new Lazy<IExpressionExecutor>(() => InitializeExpressionExecutor(functionTypeToHandlerTypeMap));
+        }
 
         public object ExecuteExpression(IExpression expression)
         {
             return _expressionExecutor.Value.Execute(expression);
         }
 
-        private static IExpressionExecutor InitializeExpressionExecutor()
+        private IExpressionExecutor InitializeExpressionExecutor(IDictionary<Type, Type> functionTypeToHandlerTypeMap)
         {
-            return new ExpressionExecutorFactory().Create();
+            return new ExpressionExecutorFactory().Create(functionTypeToHandlerTypeMap);
         }
     }
 }

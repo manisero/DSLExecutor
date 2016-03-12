@@ -8,7 +8,7 @@ namespace Manisero.DSLExecutor.Tests
     {
         private object Act(IExpression expression)
         {
-            var dslExecutor = new DSLExecutor();
+            var dslExecutor = new DSLExecutor(null);
 
             return dslExecutor.ExecuteExpression(expression);
         }

@@ -59,7 +59,7 @@ namespace Manisero.DSLExecutor.Runtime.ExpressionExecution.SpecificExpressionExe
                 if (!property.PropertyType.IsAssignableFrom(argumentExpression.ResultType))
                 {
                     // TODO: Unit-test this case
-                    throw new InvalidOperationException($"Result Type of Argument Expression for '{property.Name}' parameter is invalid. Expected: '{property.PropertyType}' or its child. Actual: '{argumentExpression.ResultType.FullName}'.");
+                    throw new InvalidOperationException($"Result Type of Argument Expression for '{property.Name}' parameter is invalid. Expected: '{property.PropertyType}' or its child. Actual: '{argumentExpression.ResultType}'.");
                 }
 
                 var argument = _expressionExecutorFactory.Value.Execute(argumentExpression);

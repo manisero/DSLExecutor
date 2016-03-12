@@ -5,7 +5,6 @@ using Manisero.DSLExecutor.Domain.ExpressionsDomain;
 using Manisero.DSLExecutor.Domain.FunctionsDomain;
 using Manisero.DSLExecutor.Extensions;
 using Manisero.DSLExecutor.Runtime.ExpressionExecution.SpecificExpressionExecution.FunctionExpressionExecution;
-using Manisero.DSLExecutor.Runtime.FunctionExecution;
 
 namespace Manisero.DSLExecutor.Runtime.ExpressionExecution.SpecificExpressionExecution
 {
@@ -60,7 +59,7 @@ namespace Manisero.DSLExecutor.Runtime.ExpressionExecution.SpecificExpressionExe
 
             if (functionHandler == null)
             {
-                throw new NotSupportedException($"Could not resolve {nameof(IFunctionExecutor)} for '{typeof(TFunction)}' function.");
+                throw new NotSupportedException($"Could not resolve handler for '{typeof(TFunction)}' function.");
             }
 
             return functionHandler.Handle(function);

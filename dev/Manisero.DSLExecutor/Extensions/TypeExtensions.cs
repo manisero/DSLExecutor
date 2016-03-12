@@ -4,21 +4,9 @@ namespace Manisero.DSLExecutor.Extensions
 {
     public static class TypeExtensions
     {
-        public static Type GetGenericTypeDefinitionImplementation(this Type type, Type definition)
-        {
-            if (definition.IsInterface)
-            {
-                return type.GetGenericInterfaceDefinitionImplementation(definition);
-            }
-            else
-            {
-                return type.GetGenericClassDefinitionImplementation(definition);
-            }
-        }
-
         public static Type GetGenericInterfaceDefinitionImplementation(this Type type, Type interfaceDefinition)
         {
-            if (type.IsInterface && type.IsConstructedGenericType && type.GetGenericTypeDefinition() == interfaceDefinition)
+            if (type.IsInterface && type.ImplementsGenericDefinition(interfaceDefinition))
             {
                 return type;
             }
@@ -27,7 +15,7 @@ namespace Manisero.DSLExecutor.Extensions
 
             foreach (var @interface in interfaces)
             {
-                if (@interface.IsGenericType && @interface.GetGenericTypeDefinition() == interfaceDefinition)
+                if (@interface.ImplementsGenericDefinition(interfaceDefinition))
                 {
                     return @interface;
                 }
@@ -36,19 +24,9 @@ namespace Manisero.DSLExecutor.Extensions
             return null;
         }
 
-        public static Type GetGenericClassDefinitionImplementation(this Type type, Type classDefinition)
+        public static bool ImplementsGenericDefinition(this Type type, Type definition)
         {
-            if (type == typeof(object))
-            {
-                return null;
-            }
-
-            if (type.IsConstructedGenericType && type.GetGenericTypeDefinition() == classDefinition)
-            {
-                return type;
-            }
-
-            return type.BaseType.GetGenericClassDefinitionImplementation(classDefinition);
+            return type.IsConstructedGenericType && type.GetGenericTypeDefinition() == definition;
         }
     }
 }

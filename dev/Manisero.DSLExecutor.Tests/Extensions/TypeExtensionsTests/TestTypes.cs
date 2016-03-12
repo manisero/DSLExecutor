@@ -1,12 +1,8 @@
 ﻿namespace Manisero.DSLExecutor.Tests.Extensions.TypeExtensionsTests
 {
-    // Definitions
+    // Definition
 
     public interface IGenericInterfaceDefinition<T>
-    {
-    }
-
-    public class GenericClassDefinition<T>
     {
     }
 
@@ -17,10 +13,6 @@
     }
 
     public class Class_Implementing_GenericInterfaceDefinition : IGenericInterfaceDefinition<int>
-    {
-    }
-
-    public class Class_DerivingFrom_GenericClassDefinition : GenericClassDefinition<int>
     {
     }
 
@@ -35,10 +27,6 @@
     }
 
     public class ChildClass_Of_Class_Implementing_GenericInterfaceDefinition : Class_Implementing_GenericInterfaceDefinition
-    {
-    }
-
-    public class ChildClass_Of_Class_DerivingFrom_GenericClassDefinition : Class_DerivingFrom_GenericClassDefinition
     {
     }
 }

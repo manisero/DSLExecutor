@@ -5,23 +5,20 @@ using Xunit;
 
 namespace Manisero.DSLExecutor.Tests.Extensions.TypeExtensionsTests
 {
-    public class GetGenericTypeDefinitionImplementationTests
+    public class GetGenericInterfaceDefinitionImplementationTests
     {
-        private Type Act(Type type, Type definition)
+        private Type Act(Type type, Type interfaceDefinition)
         {
-            return type.GetGenericTypeDefinitionImplementation(definition);
+            return type.GetGenericInterfaceDefinitionImplementation(interfaceDefinition);
         }
 
         [Theory]
         [InlineData(typeof(IGenericInterfaceDefinition<int>), typeof(IGenericInterfaceDefinition<>))]
-        [InlineData(typeof(GenericClassDefinition<int>), typeof(GenericClassDefinition<>))]
         [InlineData(typeof(Interface_Implementing_GenericInterfaceDefinition), typeof(IGenericInterfaceDefinition<>))]
         [InlineData(typeof(Class_Implementing_GenericInterfaceDefinition), typeof(IGenericInterfaceDefinition<>))]
-        [InlineData(typeof(Class_DerivingFrom_GenericClassDefinition), typeof(GenericClassDefinition<>))]
         [InlineData(typeof(ChildInterface_Of_Interface_Implementing_GenericInterfaceDefinition), typeof(IGenericInterfaceDefinition<>))]
         [InlineData(typeof(ChildClass_Of_Interface_Implementing_GenericInterfaceDefinition), typeof(IGenericInterfaceDefinition<>))]
         [InlineData(typeof(ChildClass_Of_Class_Implementing_GenericInterfaceDefinition), typeof(IGenericInterfaceDefinition<>))]
-        [InlineData(typeof(ChildClass_Of_Class_DerivingFrom_GenericClassDefinition), typeof(GenericClassDefinition<>))]
         public void type_implementing_definition___definition_implementation(Type type, Type definition)
         {
             var result = Act(type, definition);
@@ -32,8 +29,6 @@ namespace Manisero.DSLExecutor.Tests.Extensions.TypeExtensionsTests
         [Theory]
         [InlineData(typeof(object), typeof(IGenericInterfaceDefinition<>))]
         [InlineData(typeof(IGenericInterfaceDefinition<>), typeof(IGenericInterfaceDefinition<>))]
-        [InlineData(typeof(object), typeof(GenericClassDefinition<>))]
-        [InlineData(typeof(GenericClassDefinition<>), typeof(GenericClassDefinition<>))]
         public void type_not_implementing_definition___null(Type type, Type definition)
         {
             var result = Act(type, definition);

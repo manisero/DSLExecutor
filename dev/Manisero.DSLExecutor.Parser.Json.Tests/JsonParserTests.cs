@@ -105,5 +105,19 @@ namespace Manisero.DSLExecutor.Parser.Json.Tests
 
             result.ShouldBeEquivalentTo(expression);
         }
+
+        [Fact]
+        public void manual_json()
+        {
+            var json =
+@"{
+    $type: ""Manisero.DSLExecutor.Domain.ExpressionsDomain.ConstantExpression`1[[System.Int32, mscorlib]], Manisero.DSLExecutor"",
+    Value: 3
+}";
+
+            var result = Act(json);
+
+            result.Should().NotBeNull();
+        }
     }
 }

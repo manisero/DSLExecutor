@@ -2,7 +2,7 @@
 using Manisero.DSLExecutor.Domain.ExpressionsDomain;
 using Xunit;
 
-namespace Manisero.DSLExecutor.Tests
+namespace Manisero.DSLExecutor.Tests.DSLExecutorTests
 {
     public class DSLExecutorTests
     {

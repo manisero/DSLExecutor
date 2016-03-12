@@ -1,5 +1,5 @@
 {
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "JSON Parser for DSLExecutor.",
   "authors": [ "manisero" ],
   "tags": [ "DSLExecutor", "Parser", "JSON" ],

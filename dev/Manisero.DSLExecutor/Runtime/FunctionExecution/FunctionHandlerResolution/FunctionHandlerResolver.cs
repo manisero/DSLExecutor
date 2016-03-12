@@ -1,7 +1,7 @@
 ﻿using System;
 using Manisero.DSLExecutor.Domain.FunctionsDomain;
 
-namespace Manisero.DSLExecutor.Runtime.FunctionExecution
+namespace Manisero.DSLExecutor.Runtime.FunctionExecution.FunctionHandlerResolution
 {
     public class FunctionHandlerResolver
     {

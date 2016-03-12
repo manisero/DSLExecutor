@@ -17,15 +17,15 @@ namespace Manisero.DSLExecutor.Runtime.ExpressionExecution.SpecificExpressionExe
     public class FunctionExpressionExecutor : IFunctionExpressionExecutor
     {
         private readonly IFunctionParametersFiller _functionParametersFiller;
-        private readonly IFunctionExecutor _functionExecutor;
+        private readonly IFunctionHandlerResolver _functionHandlerResolver;
 
         private readonly Lazy<MethodInfo> _executeGenericMethod;
 
         public FunctionExpressionExecutor(IFunctionParametersFiller functionParametersFiller,
-                                          IFunctionExecutor functionExecutor)
+                                          IFunctionHandlerResolver functionHandlerResolver)
         {
             _functionParametersFiller = functionParametersFiller;
-            _functionExecutor = functionExecutor;
+            _functionHandlerResolver = functionHandlerResolver;
 
             _executeGenericMethod = new Lazy<MethodInfo>(() => GetType().GetMethod(nameof(ExecuteGeneric),
                                                                                    BindingFlags.Instance | BindingFlags.NonPublic));
@@ -37,10 +37,17 @@ namespace Manisero.DSLExecutor.Runtime.ExpressionExecution.SpecificExpressionExe
             var functionDefinitionImplementation = functionType.GetGenericInterfaceDefinitionImplementation(typeof(IFunction<>));
             var resultType = functionDefinitionImplementation.GetGenericArguments()[0];
 
-            return _executeGenericMethod.Value
-                                        .MakeGenericMethod(functionType, resultType)
-                                        .Invoke(this,
-                                                new object[] { expression.ArgumentExpressions });
+            try
+            {
+                return _executeGenericMethod.Value
+                                            .MakeGenericMethod(functionType, resultType)
+                                            .Invoke(this,
+                                                    new object[] { expression.ArgumentExpressions });
+            }
+            catch (TargetInvocationException exception)
+            {
+                throw exception.InnerException;
+            }
         }
 
         private TResult ExecuteGeneric<TFunction, TResult>(IDictionary<string, IExpression> argumentExpressions)
@@ -49,7 +56,14 @@ namespace Manisero.DSLExecutor.Runtime.ExpressionExecution.SpecificExpressionExe
             var function = Activator.CreateInstance<TFunction>();
             _functionParametersFiller.Fill(function, argumentExpressions);
 
-            return _functionExecutor.Execute<TFunction, TResult>(function);
+            var functionHandler = _functionHandlerResolver.Resolve<TFunction, TResult>();
+
+            if (functionHandler == null)
+            {
+                throw new NotSupportedException($"Could not resolve {nameof(IFunctionExecutor)} for '{typeof(TFunction)}' function.");
+            }
+
+            return functionHandler.Handle(function);
         }
     }
 }

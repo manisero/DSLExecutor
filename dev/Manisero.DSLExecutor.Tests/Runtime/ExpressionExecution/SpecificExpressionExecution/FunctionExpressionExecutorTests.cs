@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using FluentAssertions;
 using Manisero.DSLExecutor.Domain.ExpressionsDomain;
+using Manisero.DSLExecutor.Domain.FunctionsDomain;
 using Manisero.DSLExecutor.Runtime.ExpressionExecution.SpecificExpressionExecution;
 using Manisero.DSLExecutor.Runtime.ExpressionExecution.SpecificExpressionExecution.FunctionExpressionExecution;
-using Manisero.DSLExecutor.Runtime.FunctionExecution;
 using Manisero.DSLExecutor.Tests.TestsDomain;
 using NSubstitute;
 using Xunit;
@@ -14,10 +15,10 @@ namespace Manisero.DSLExecutor.Tests.Runtime.ExpressionExecution.SpecificExpress
     {
         private object Act(IFunctionExpression expression,
                            IFunctionParametersFiller functionParametersFiller = null,
-                           IFunctionExecutor functionExecutor = null)
+                           IFunctionHandlerResolver functionHandlerResolver = null)
         {
             var executor = new FunctionExpressionExecutor(functionParametersFiller ?? Substitute.For<IFunctionParametersFiller>(),
-                                                          functionExecutor ?? Substitute.For<IFunctionExecutor>());
+                                                          functionHandlerResolver ?? Substitute.For<IFunctionHandlerResolver>());
 
             return executor.Execute(expression);
         }
@@ -45,17 +46,35 @@ namespace Manisero.DSLExecutor.Tests.Runtime.ExpressionExecution.SpecificExpress
         [InlineData(0)]
         [InlineData(1)]
         [InlineData(5)]
-        public void returns_functionExecutor_result(int functionExecutorResult)
+        public void returns_functionHandler_result(int functionHandlerResult)
         {
             var expression = new FunctionExpression<FunctionWithoutParameters, int>();
 
-            var functionExecutor = Substitute.For<IFunctionExecutor>();
-            functionExecutor.Execute<FunctionWithoutParameters, int>(Arg.Any<FunctionWithoutParameters>())
-                            .Returns(functionExecutorResult);
+            var functionHandler = Substitute.For<IFunctionHandler<FunctionWithoutParameters, int>>();
+            functionHandler.Handle(Arg.Any<FunctionWithoutParameters>())
+                           .Returns(functionHandlerResult);
 
-            var result = Act(expression, functionExecutor: functionExecutor);
+            var functionHandlerResolver = Substitute.For<IFunctionHandlerResolver>();
+            functionHandlerResolver.Resolve<FunctionWithoutParameters, int>()
+                                   .Returns(functionHandler);
 
-            result.Should().Be(functionExecutorResult);
+            var result = Act(expression, functionHandlerResolver: functionHandlerResolver);
+
+            result.Should().Be(functionHandlerResult);
+        }
+
+        [Fact]
+        public void functionHandler_null___exception()
+        {
+            var expression = new FunctionExpression<FunctionWithoutParameters, int>();
+
+            var functionHandlerResolver = Substitute.For<IFunctionHandlerResolver>();
+            functionHandlerResolver.Resolve<FunctionWithoutParameters, int>()
+                                   .Returns((IFunctionHandler<FunctionWithoutParameters, int>)null);
+
+            Action act = () => Act(expression, functionHandlerResolver: functionHandlerResolver);
+
+            act.ShouldThrow<NotSupportedException>();
         }
     }
 }

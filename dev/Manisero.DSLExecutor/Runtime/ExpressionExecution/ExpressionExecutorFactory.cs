@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using Manisero.DSLExecutor.Runtime.ExpressionExecution.SpecificExpressionExecution;
 using Manisero.DSLExecutor.Runtime.ExpressionExecution.SpecificExpressionExecution.FunctionExpressionExecution;
-using Manisero.DSLExecutor.Runtime.FunctionExecution;
-using Manisero.DSLExecutor.Runtime.FunctionExecution.FunctionHandlerResolution.FunctionHandlerResolvers;
-using Manisero.DSLExecutor.Runtime.FunctionExecution.FunctionHandlerResolution.FunctionHandlerTypeResolvers;
+using Manisero.DSLExecutor.Runtime.ExpressionExecution.SpecificExpressionExecution.FunctionExpressionExecution.FunctionHandlerResolvers;
 
 namespace Manisero.DSLExecutor.Runtime.ExpressionExecution
 {
@@ -21,8 +19,7 @@ namespace Manisero.DSLExecutor.Runtime.ExpressionExecution
 
             expressionExecutor = new ExpressionExecutor(new ConstantExpressionExecutor(),
                                                         new FunctionExpressionExecutor(new FunctionParametersFiller(new Lazy<IExpressionExecutor>(() => expressionExecutor)),
-                                                                                       new FunctionExecutor(new DictionarySourcedFunctionHandlerTypeResolver(functionTypeToHandlerTypeMap),
-                                                                                                            new ActivatorUsingFunctionHandlerResolver())),
+                                                                                       new FunctionHandlerResolver()),
                                                         new BatchExpressionExecutor(new Lazy<IExpressionExecutor>(() => expressionExecutor)));
 
             return expressionExecutor;

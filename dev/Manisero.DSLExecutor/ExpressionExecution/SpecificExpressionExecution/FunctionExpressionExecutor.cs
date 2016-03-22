@@ -18,7 +18,7 @@ namespace Manisero.DSLExecutor.ExpressionExecution.SpecificExpressionExecution
         private readonly IFunctionParametersFiller _functionParametersFiller;
         private readonly IFunctionHandlerResolver _functionHandlerResolver;
 
-        private readonly Lazy<MethodInfo> _executeGenericMethod;
+        private readonly Lazy<MethodInfo> _executeFunctionMethod;
 
         public FunctionExpressionExecutor(IFunctionParametersFiller functionParametersFiller,
                                           IFunctionHandlerResolver functionHandlerResolver)
@@ -26,8 +26,8 @@ namespace Manisero.DSLExecutor.ExpressionExecution.SpecificExpressionExecution
             _functionParametersFiller = functionParametersFiller;
             _functionHandlerResolver = functionHandlerResolver;
 
-            _executeGenericMethod = new Lazy<MethodInfo>(() => GetType().GetMethod(nameof(ExecuteGeneric),
-                                                                                   BindingFlags.Instance | BindingFlags.NonPublic));
+            _executeFunctionMethod = new Lazy<MethodInfo>(() => GetType().GetMethod(nameof(ExecuteFunction),
+                                                                                    BindingFlags.Instance | BindingFlags.NonPublic));
         }
 
         public object Execute(IFunctionExpression expression)
@@ -38,10 +38,10 @@ namespace Manisero.DSLExecutor.ExpressionExecution.SpecificExpressionExecution
 
             try
             {
-                return _executeGenericMethod.Value
-                                            .MakeGenericMethod(functionType, resultType)
-                                            .Invoke(this,
-                                                    new object[] { expression.ArgumentExpressions });
+                return _executeFunctionMethod.Value
+                                             .MakeGenericMethod(functionType, resultType)
+                                             .Invoke(this,
+                                                     new object[] { expression.ArgumentExpressions });
             }
             catch (TargetInvocationException exception)
             {
@@ -49,7 +49,7 @@ namespace Manisero.DSLExecutor.ExpressionExecution.SpecificExpressionExecution
             }
         }
 
-        private TResult ExecuteGeneric<TFunction, TResult>(IDictionary<string, IExpression> argumentExpressions)
+        private TResult ExecuteFunction<TFunction, TResult>(IDictionary<string, IExpression> argumentExpressions)
             where TFunction : IFunction<TResult>
         {
             var function = Activator.CreateInstance<TFunction>();

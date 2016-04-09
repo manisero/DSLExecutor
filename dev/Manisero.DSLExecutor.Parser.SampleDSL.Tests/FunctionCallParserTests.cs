@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using FluentAssertions;
 using Manisero.DSLExecutor.Parser.SampleDSL.Tokens;
 using Sprache;
@@ -32,6 +33,14 @@ namespace Manisero.DSLExecutor.Parser.SampleDSL.Tests
 
             result.Should().NotBeNull();
             result.Arguments.Select(x => ((Literal)x).Value).ShouldAllBeEquivalentTo(expectedArgumentValues);
+        }
+
+        [Fact]
+        public void parses_function_arguments()
+        {
+            var result = Act("add(add(\"1\" \"2\" sub()) sub())");
+            
+            throw new NotImplementedException();
         }
     }
 }

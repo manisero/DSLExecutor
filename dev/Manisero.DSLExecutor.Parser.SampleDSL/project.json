@@ -1,10 +1,14 @@
 ﻿{
   "version": "0.0.1",
-  "description": "Domain-Specific Language compiler and executor.",
+  "description": "SampleDSL Parser for DSLExecutor.",
   "authors": [ "manisero" ],
-  "tags": [ "DSL", "DSLExecutor" ],
+  "tags": [ "DSL", "DSLExecutor", "Parser", "SampleDSL" ],
   "projectUrl": "https://github.com/manisero/DSLExecutor",
   "licenseUrl": "https://github.com/manisero/DSLExecutor/blob/master/LICENSE",
+
+  "dependencies": {
+    "Manisero.DSLExecutor": "0.0.1"
+  },
 
   "frameworks": {
     "dnx46": { }

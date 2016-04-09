@@ -2,7 +2,7 @@
   "version": "0.0.1",
   "description": "JSON Parser for DSLExecutor.",
   "authors": [ "manisero" ],
-  "tags": [ "DSLExecutor", "Parser", "JSON" ],
+  "tags": [ "DSL", "DSLExecutor", "Parser", "JSON" ],
   "projectUrl": "https://github.com/manisero/DSLExecutor",
   "licenseUrl": "https://github.com/manisero/DSLExecutor/blob/master/LICENSE",
 

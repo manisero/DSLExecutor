@@ -13,6 +13,7 @@ namespace Manisero.DSLExecutor.Parser.SampleDSL.Tests
         [InlineData("\"ab\"", "ab")]
         [InlineData("\"a b\"", "a b")]
         [InlineData("\"1\"", "1")]
+        [InlineData("\"\"", "")]
         public void parses_literal_without_escaped_characters(string input, string expectedValue)
         {
             var result = Parsers.LiteralParser.Parse(input);

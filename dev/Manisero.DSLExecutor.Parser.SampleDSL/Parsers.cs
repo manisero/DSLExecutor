@@ -13,6 +13,8 @@ namespace Manisero.DSLExecutor.Parser.SampleDSL
                                                                         Value = value
                                                                     }).Token();
 
+        public static readonly Parser<string> FunctionNameParser = Parse.LetterOrDigit.AtLeastOnce().Text().Token();
+
         public static readonly Parser<FunctionArguments> FunctionArgumentsParser = null;
 
         public static readonly Parser<FunctionCall> FunctionCallParser = null;

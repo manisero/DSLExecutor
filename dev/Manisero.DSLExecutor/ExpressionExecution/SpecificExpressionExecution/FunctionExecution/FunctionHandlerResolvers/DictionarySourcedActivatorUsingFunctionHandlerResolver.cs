@@ -22,7 +22,7 @@ namespace Manisero.DSLExecutor.ExpressionExecution.SpecificExpressionExecution.F
                 return null;
             }
 
-            return Activator.CreateInstance(handlerType) as IFunctionHandler<TFunction, TResult>;
+            return (IFunctionHandler<TFunction, TResult>)Activator.CreateInstance(handlerType);
         }
     }
 }

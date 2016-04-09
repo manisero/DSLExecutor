@@ -1,4 +1,4 @@
-﻿{
+{
   "version": "0.0.1",
   "description": "SampleDSL Parser for DSLExecutor.",
   "authors": [ "manisero" ],
@@ -7,7 +7,8 @@
   "licenseUrl": "https://github.com/manisero/DSLExecutor/blob/master/LICENSE",
 
   "dependencies": {
-    "Manisero.DSLExecutor": "0.0.1"
+    "Manisero.DSLExecutor": "0.0.1",
+    "Sprache": "2.0.0.51"
   },
 
   "frameworks": {

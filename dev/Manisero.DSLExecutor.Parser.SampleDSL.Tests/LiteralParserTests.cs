@@ -12,6 +12,14 @@ namespace Manisero.DSLExecutor.Parser.SampleDSL.Tests
             return Parsers.LiteralParser.Parse(input);
         }
 
+        public void accepts_empty_literal()
+        {
+            var result = Act("\"\"");
+
+            result.Should().NotBeNull();
+            result.Value.Should().Be("");
+        }
+
         [Theory]
         [InlineData("\"a\"", "a")]
         [InlineData("\"ab\"", "ab")]
@@ -20,8 +28,7 @@ namespace Manisero.DSLExecutor.Parser.SampleDSL.Tests
         public void parses_literal_without_escaped_characters(string input, string expectedValue)
         {
             var result = Act(input);
-
-            result.Should().NotBeNull();
+            
             result.Value.Should().Be(expectedValue);
         }
 
@@ -32,8 +39,7 @@ namespace Manisero.DSLExecutor.Parser.SampleDSL.Tests
         public void keeps_spaces_within_literal(string input, string expectedValue)
         {
             var result = Act(input);
-
-            result.Should().NotBeNull();
+            
             result.Value.Should().Be(expectedValue);
         }
 
@@ -43,17 +49,8 @@ namespace Manisero.DSLExecutor.Parser.SampleDSL.Tests
         public void ignores_spaces_around_literal(string input, string expectedValue)
         {
             var result = Act(input);
-
-            result.Should().NotBeNull();
+            
             result.Value.Should().Be(expectedValue);
-        }
-
-        public void accepts_empty_literal()
-        {
-            var result = Act("\"\"");
-
-            result.Should().NotBeNull();
-            result.Value.Should().Be("");
         }
     }
 }

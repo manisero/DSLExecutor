@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using FluentAssertions;
 using Manisero.DSLExecutor.Parser.SampleDSL.Tokens;
 using Sprache;
@@ -15,32 +14,46 @@ namespace Manisero.DSLExecutor.Parser.SampleDSL.Tests
         }
 
         [Theory]
+        [InlineData("f()", "f")]
         [InlineData("function()", "function")]
-        public void parses_name_and_empty_arguments(string input, string expectedName)
+        public void parses_name_and_empty_arguments(string input, string expectedFunctionName)
         {
             var result = Act(input);
 
             result.Should().NotBeNull();
-            result.FunctionName.Should().Be(expectedName);
+            result.FunctionName.Should().Be(expectedFunctionName);
+            result.Arguments.Should().NotBeNull();
             result.Arguments.Should().BeEmpty();
         }
 
         [Theory]
-        [InlineData("f(\"1\" \"2\")", new[] { "1", "2" })]
-        public void parses_literal_arguments(string input, string[] expectedArgumentValues)
+        [InlineData("f(\"a\")", "a")]
+        [InlineData("f(\"1\")", "1")]
+        public void parses_literal_argument(string input, string expectedArgumentValue)
         {
             var result = Act(input);
-
-            result.Should().NotBeNull();
-            result.Arguments.Select(x => ((Literal)x).Value).ShouldAllBeEquivalentTo(expectedArgumentValues);
+            
+            result.Arguments.Select(x => ((Literal)x).Value).ShouldAllBeEquivalentTo(new[] { expectedArgumentValue });
         }
 
-        [Fact]
-        public void parses_function_arguments()
+        [Theory]
+        [InlineData("f1(f2())", "f2")]
+        [InlineData("f(function(\"a\"))", "function")]
+        public void parses_function_call_argument(string input, string expectedFunctionName)
         {
-            var result = Act("add(add(\"1\" \"2\" sub()) sub())");
+            var result = Act(input);
             
-            throw new NotImplementedException();
+            result.Arguments.Select(x => ((FunctionCall)x).FunctionName).ShouldAllBeEquivalentTo(new[] { expectedFunctionName });
+        }
+
+        [Theory]
+        [InlineData("f1(\"a\" f2())", "a", "f2")]
+        public void parses_multiple_arguments(string input, string expectedArgumentValue, string expectedFunctionName)
+        {
+            var result = Act(input);
+            
+            ((Literal)result.Arguments.ElementAt(0)).Value.Should().Be(expectedArgumentValue);
+            ((FunctionCall)result.Arguments.ElementAt(1)).FunctionName.Should().Be(expectedFunctionName);
         }
     }
 }

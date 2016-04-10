@@ -7,11 +7,11 @@ using Xunit;
 
 namespace Manisero.DSLExecutor.Parser.SampleDSL.Tests
 {
-    public class ExpressionParserTests
+    public class TokenTreeParserTests
     {
-        private Expression Act(string input)
+        private TokenTree Act(string input)
         {
-            return Parsers.ExpressionParser.Parse(input);
+            return Parsers.TokenTreeParser.Parse(input);
         }
 
         [Theory]
@@ -19,7 +19,7 @@ namespace Manisero.DSLExecutor.Parser.SampleDSL.Tests
         [InlineData("f1() f2()", new[] { "f1", "f2" })]
         [InlineData("f1() f2() f3()", new[] { "f1", "f2", "f3" })]
         [InlineData("f1(f() \"a\") f2()", new[] { "f1", "f2" })]
-        public void parses_expression(string input, string[] expectedFunctionNames)
+        public void parses_token_tree(string input, string[] expectedFunctionNames)
         {
             var result = Act(input);
 

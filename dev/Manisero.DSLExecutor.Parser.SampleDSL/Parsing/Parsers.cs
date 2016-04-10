@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Manisero.DSLExecutor.Parser.SampleDSL.Tokens;
+using Manisero.DSLExecutor.Parser.SampleDSL.Parsing.Tokens;
 using Sprache;
 
-namespace Manisero.DSLExecutor.Parser.SampleDSL
+namespace Manisero.DSLExecutor.Parser.SampleDSL.Parsing
 {
     public static class Parsers
     {

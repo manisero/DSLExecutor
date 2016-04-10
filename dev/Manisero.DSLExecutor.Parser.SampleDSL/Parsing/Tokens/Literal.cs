@@ -1,4 +1,4 @@
-﻿namespace Manisero.DSLExecutor.Parser.SampleDSL.Tokens
+﻿namespace Manisero.DSLExecutor.Parser.SampleDSL.Parsing.Tokens
 {
     public class Literal : IFunctionArgumentToken
     {

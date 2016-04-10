@@ -1,11 +1,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
-using Manisero.DSLExecutor.Parser.SampleDSL.Tokens;
+using Manisero.DSLExecutor.Parser.SampleDSL.Parsing;
+using Manisero.DSLExecutor.Parser.SampleDSL.Parsing.Tokens;
 using Sprache;
 using Xunit;
 
-namespace Manisero.DSLExecutor.Parser.SampleDSL.Tests
+namespace Manisero.DSLExecutor.Parser.SampleDSL.Tests.Parsing
 {
     public class FunctionArgumentsParserTests
     {

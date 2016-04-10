@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Manisero.DSLExecutor.Parser.SampleDSL.Tokens
+namespace Manisero.DSLExecutor.Parser.SampleDSL.Parsing.Tokens
 {
     public class FunctionCall : IFunctionArgumentToken
     {

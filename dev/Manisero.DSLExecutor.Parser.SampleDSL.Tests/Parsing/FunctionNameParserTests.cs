@@ -1,9 +1,10 @@
 ﻿using System;
 using FluentAssertions;
+using Manisero.DSLExecutor.Parser.SampleDSL.Parsing;
 using Sprache;
 using Xunit;
 
-namespace Manisero.DSLExecutor.Parser.SampleDSL.Tests
+namespace Manisero.DSLExecutor.Parser.SampleDSL.Tests.Parsing
 {
     public class FunctionNameParserTests
     {

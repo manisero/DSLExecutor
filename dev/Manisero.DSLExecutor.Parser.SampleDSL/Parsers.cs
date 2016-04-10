@@ -31,5 +31,12 @@ namespace Manisero.DSLExecutor.Parser.SampleDSL
                                                                                   FunctionName = name,
                                                                                   Arguments = arguments.ToList()
                                                                               }).Token();
+
+        public static readonly Parser<Expression> ExpressionParser = FunctionCallParser.AtLeastOnce()
+                                                                                       .Select(x => new Expression
+                                                                                           {
+                                                                                               FunctionCalls = x.ToList()
+                                                                                           })
+                                                                                       .Token();
     }
 }

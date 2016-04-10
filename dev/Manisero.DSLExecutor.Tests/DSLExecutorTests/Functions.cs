@@ -2,8 +2,6 @@
 
 namespace Manisero.DSLExecutor.Tests.DSLExecutorTests
 {
-    // Add
-
     public class AddFunction : IFunction<int>
     {
         public int A { get; set; }
@@ -18,8 +16,6 @@ namespace Manisero.DSLExecutor.Tests.DSLExecutorTests
         }
     }
 
-    // Substract
-
     public class SubstractFunction : IFunction<int>
     {
         public int A { get; set; }
@@ -33,8 +29,6 @@ namespace Manisero.DSLExecutor.Tests.DSLExecutorTests
             return function.A - function.B;
         }
     }
-
-    // AddAndStore
 
     public class LogFunction : IFunction<Void>
     {

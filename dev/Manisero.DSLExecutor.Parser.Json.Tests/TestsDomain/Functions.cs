@@ -8,9 +8,14 @@ namespace Manisero.DSLExecutor.Parser.Json.Tests.TestsDomain
         public int B { get; set; }
     }
 
-    public class SubstractFunction : IFunction<int>
+    public class SubFunction : IFunction<int>
     {
         public int A { get; set; }
         public int B { get; set; }
+    }
+
+    public class LogFunction : IFunction<Void>
+    {
+        public string Text { get; set; }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using FluentAssertions;
 using Manisero.DSLExecutor.Domain.ExpressionsDomain;
+using Manisero.DSLExecutor.Domain.FunctionsDomain;
 using Manisero.DSLExecutor.Parser.Json.Tests.TestsDomain;
 using Newtonsoft.Json;
 using Xunit;
@@ -77,28 +78,33 @@ namespace Manisero.DSLExecutor.Parser.Json.Tests
         [Fact]
         public void complex_expression()
         {
-            var expression = new BatchExpression<string>
+            var expression = new BatchExpression<int>
                 {
                     SideExpressions = new IExpression[]
                         {
-                            new FunctionExpression<SubstractFunction, int>
+                            new FunctionExpression<LogFunction, Void>
                                 {
                                     ArgumentExpressions = new Dictionary<string, IExpression>
                                         {
-                                            [nameof(SubstractFunction.A)] = new FunctionExpression<AddFunction, int>
-                                                {
-                                                    ArgumentExpressions = new Dictionary<string, IExpression>
-                                                        {
-                                                            [nameof(AddFunction.A)] = new ConstantExpression<int> { Value = 1 },
-                                                            [nameof(AddFunction.B)] = new ConstantExpression<int> { Value = 2 }
-                                                        }
-                                                },
-                                            [nameof(SubstractFunction.B)] = new ConstantExpression<int> { Value = 3 }
+                                            [nameof(LogFunction.Text)] = new ConstantExpression<string> { Value = "Calculating..." }
                                         }
-                                },
-                            new ConstantExpression<double> { Value = 5.0 }
+                                }
                         },
-                    ResultExpression = new ConstantExpression<string> { Value = "value" }
+                    ResultExpression = new FunctionExpression<SubFunction, int>
+                        {
+                            ArgumentExpressions = new Dictionary<string, IExpression>
+                                {
+                                    [nameof(SubFunction.A)] = new FunctionExpression<AddFunction, int>
+                                        {
+                                            ArgumentExpressions = new Dictionary<string, IExpression>
+                                                {
+                                                    [nameof(AddFunction.A)] = new ConstantExpression<int> { Value = 1 },
+                                                    [nameof(AddFunction.B)] = new ConstantExpression<int> { Value = 2 }
+                                                }
+                                        },
+                                    [nameof(SubFunction.B)] = new ConstantExpression<int> { Value = 3 }
+                                }
+                        }
                 };
 
             var result = Act(Serialize(expression));

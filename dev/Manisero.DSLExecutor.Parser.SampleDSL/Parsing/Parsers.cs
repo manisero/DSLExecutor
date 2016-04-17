@@ -9,15 +9,19 @@ namespace Manisero.DSLExecutor.Parser.SampleDSL.Parsing
     public static class Parsers
     {
         // Literal
-        private const char EscapingCharacter = '\\';
         private const char LiteralDelimiter = '\'';
+        private const char EscapeMark = '\\';
 
-        public static readonly Parser<char> EscapingCharacterParser = Parse.Char(EscapingCharacter);
         public static readonly Parser<char> LiteralDelimiterParser = Parse.Char(LiteralDelimiter);
-        public static readonly Parser<char> SpecialCharacterParser = EscapingCharacterParser.Or(LiteralDelimiterParser);
-        //public static readonly Parser<char> RegularCharacterParser = Parse.AnyChar. EscapingCharacterParser.Or(LiteralDelimiterParser);
-        public static readonly Parser<string> LiteralValueParser = Parse.CharExcept('\'').Many().Text();
+        public static readonly Parser<char> EscapeMarkParser = Parse.Char(EscapeMark);
+        public static readonly Parser<char> SpecialCharacterParser = LiteralDelimiterParser.Or(EscapeMarkParser);
 
+        public static readonly Parser<char> RegularCharacterParser = Parse.AnyChar.Except(SpecialCharacterParser);
+        public static readonly Parser<char> EscapedCharacterParser = (from escapeMark in EscapeMarkParser
+                                                                      from value in SpecialCharacterParser
+                                                                      select value);
+
+        public static readonly Parser<string> LiteralValueParser = RegularCharacterParser.Or(EscapedCharacterParser).Many().Text();
         public static readonly Parser<Literal> LiteralParser = (from startQuote in LiteralDelimiterParser
                                                                 from value in LiteralValueParser
                                                                 from endQuote in LiteralDelimiterParser

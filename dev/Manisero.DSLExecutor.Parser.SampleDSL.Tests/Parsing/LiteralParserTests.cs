@@ -53,5 +53,14 @@ namespace Manisero.DSLExecutor.Parser.SampleDSL.Tests.Parsing
             
             result.Value.Should().Be(expectedValue);
         }
+
+        [Theory]
+        [InlineData("'\''", "'")]
+        public void parses_literal_with_escaped_characters(string input, string expectedValue)
+        {
+            var result = Act(input);
+
+            result.Value.Should().Be(expectedValue);
+        }
     }
 }

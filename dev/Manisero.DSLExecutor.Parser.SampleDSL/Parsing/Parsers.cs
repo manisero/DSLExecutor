@@ -9,11 +9,17 @@ namespace Manisero.DSLExecutor.Parser.SampleDSL.Parsing
     public static class Parsers
     {
         // Literal
-        public static readonly Parser<char> LiteralDelimiterParser = Parse.Char('\'');
-        //public static readonly Parser<Literal> LiteralValueParser =
+        private const char EscapingCharacter = '\\';
+        private const char LiteralDelimiter = '\'';
+
+        public static readonly Parser<char> EscapingCharacterParser = Parse.Char(EscapingCharacter);
+        public static readonly Parser<char> LiteralDelimiterParser = Parse.Char(LiteralDelimiter);
+        public static readonly Parser<char> SpecialCharacterParser = EscapingCharacterParser.Or(LiteralDelimiterParser);
+        //public static readonly Parser<char> RegularCharacterParser = Parse.AnyChar. EscapingCharacterParser.Or(LiteralDelimiterParser);
+        public static readonly Parser<string> LiteralValueParser = Parse.CharExcept('\'').Many().Text();
 
         public static readonly Parser<Literal> LiteralParser = (from startQuote in LiteralDelimiterParser
-                                                                from value in Parse.CharExcept('\'').Many().Text()
+                                                                from value in LiteralValueParser
                                                                 from endQuote in LiteralDelimiterParser
                                                                 select new Literal
                                                                     {

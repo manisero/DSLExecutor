@@ -12,7 +12,7 @@ namespace Manisero.DSLExecutor.Parser.SampleDSL.Tests.Parsing
     {
         private IEnumerable<IFunctionArgumentToken> Act(string input)
         {
-            return Parsers.FunctionArgumentsParser.Value.Parse(input);
+            return Parsers.FunctionArgumentsParser.Parse(input);
         }
 
         [Fact]

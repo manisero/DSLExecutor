@@ -29,12 +29,12 @@ namespace Manisero.DSLExecutor.Parser.SampleDSL.Parsing
         // FunctionCall
         public static readonly Parser<string> FunctionNameParser = Parse.LetterOrDigit.AtLeastOnce().Text();
 
-        public static readonly Lazy<Parser<IEnumerable<IFunctionArgumentToken>>> FunctionArgumentsParser = new Lazy<Parser<IEnumerable<IFunctionArgumentToken>>>(() => LiteralParser.Or<IFunctionArgumentToken>(FunctionCallParser)
-                                                                                                                                                                                    .Many());
+        public static readonly Parser<IEnumerable<IFunctionArgumentToken>> FunctionArgumentsParser = LiteralParser.Or<IFunctionArgumentToken>(Parse.Ref(() => FunctionCallParser))
+                                                                                                                  .Many();
 
         public static readonly Parser<FunctionCall> FunctionCallParser = (from name in FunctionNameParser
                                                                           from argumentsStart in Parse.Char('(')
-                                                                          from arguments in FunctionArgumentsParser.Value
+                                                                          from arguments in Parse.Ref(() => FunctionArgumentsParser)
                                                                           from argumentsEnd in Parse.Char(')')
                                                                           select new FunctionCall
                                                                               {

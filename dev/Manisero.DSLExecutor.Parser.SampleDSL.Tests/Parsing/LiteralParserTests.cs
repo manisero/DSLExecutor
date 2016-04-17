@@ -22,10 +22,10 @@ namespace Manisero.DSLExecutor.Parser.SampleDSL.Tests.Parsing
         }
 
         [Theory]
-        [InlineData("\"a\"", "a")]
-        [InlineData("\"ab\"", "ab")]
-        [InlineData("\"1\"", "1")]
-        [InlineData("\"1.2\"", "1.2")]
+        [InlineData("'a'", "a")]
+        [InlineData("'ab'", "ab")]
+        [InlineData("'1'", "1")]
+        [InlineData("'1.2'", "1.2")]
         public void parses_literal_without_escaped_characters(string input, string expectedValue)
         {
             var result = Act(input);
@@ -34,9 +34,9 @@ namespace Manisero.DSLExecutor.Parser.SampleDSL.Tests.Parsing
         }
 
         [Theory]
-        [InlineData("\" a \"", " a ")]
-        [InlineData("\"  a  \"", "  a  ")]
-        [InlineData("\"a b\"", "a b")]
+        [InlineData("' a '", " a ")]
+        [InlineData("'  a  '", "  a  ")]
+        [InlineData("'a b'", "a b")]
         public void keeps_spaces_within_literal(string input, string expectedValue)
         {
             var result = Act(input);
@@ -45,8 +45,8 @@ namespace Manisero.DSLExecutor.Parser.SampleDSL.Tests.Parsing
         }
 
         [Theory]
-        [InlineData(" \"a\" ", "a")]
-        [InlineData("  \"a\"  ", "a")]
+        [InlineData(" 'a' ", "a")]
+        [InlineData("  'a'  ", "a")]
         public void ignores_spaces_around_literal(string input, string expectedValue)
         {
             var result = Act(input);

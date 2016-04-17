@@ -19,7 +19,7 @@ namespace Manisero.DSLExecutor.Parser.SampleDSL.Tests.Parsing
         [InlineData("f()", new[] { "f" })]
         [InlineData("f1() f2()", new[] { "f1", "f2" })]
         [InlineData("f1() f2() f3()", new[] { "f1", "f2", "f3" })]
-        [InlineData("f1(f() \"a\") f2()", new[] { "f1", "f2" })]
+        [InlineData("f1(f() 'a') f2()", new[] { "f1", "f2" })]
         public void parses_token_tree(string input, string[] expectedFunctionNames)
         {
             var result = Act(input);

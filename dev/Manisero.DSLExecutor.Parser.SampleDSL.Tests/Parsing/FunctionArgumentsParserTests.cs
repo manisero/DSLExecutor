@@ -25,8 +25,8 @@ namespace Manisero.DSLExecutor.Parser.SampleDSL.Tests.Parsing
         }
 
         [Theory]
-        [InlineData("\"a\"", "a")]
-        [InlineData("\"1\"", "1")]
+        [InlineData("'a'", "a")]
+        [InlineData("'1'", "1")]
         public void parses_literal_argument(string input, string expectedArgumentValue)
         {
             var result = Act(input);
@@ -36,7 +36,7 @@ namespace Manisero.DSLExecutor.Parser.SampleDSL.Tests.Parsing
 
         [Theory]
         [InlineData("f()", "f")]
-        [InlineData("f(\"1\" \"2\")", "f")]
+        [InlineData("f('1' '2')", "f")]
         public void parses_function_call_argument(string input, string expectedFunctionName)
         {
             var result = Act(input);
@@ -45,7 +45,7 @@ namespace Manisero.DSLExecutor.Parser.SampleDSL.Tests.Parsing
         }
 
         [Theory]
-        [InlineData("\"1\" f()", "1", "f")]
+        [InlineData("'1' f()", "1", "f")]
         public void parses_multiple_arguments(string input, string expectedArgumentValue, string expectedFunctionName)
         {
             var result = Act(input);

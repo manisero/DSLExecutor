@@ -8,19 +8,23 @@ namespace Manisero.DSLExecutor.Parser.SampleDSL.Parsing
 {
     public static class Parsers
     {
-        public static readonly Parser<Literal> LiteralParser = (from startQuote in Parse.Char('\'')
+        // Literal
+        public static readonly Parser<char> LiteralDelimiterParser = Parse.Char('\'');
+        //public static readonly Parser<Literal> LiteralValueParser =
+
+        public static readonly Parser<Literal> LiteralParser = (from startQuote in LiteralDelimiterParser
                                                                 from value in Parse.CharExcept('\'').Many().Text()
-                                                                from endQuote in Parse.Char('\'')
+                                                                from endQuote in LiteralDelimiterParser
                                                                 select new Literal
                                                                     {
                                                                         Value = value
                                                                     }).Token();
 
-        public static readonly Parser<string> FunctionNameParser = Parse.LetterOrDigit.AtLeastOnce().Text().Token();
+        // FunctionCall
+        public static readonly Parser<string> FunctionNameParser = Parse.LetterOrDigit.AtLeastOnce().Text();
 
         public static readonly Lazy<Parser<IEnumerable<IFunctionArgumentToken>>> FunctionArgumentsParser = new Lazy<Parser<IEnumerable<IFunctionArgumentToken>>>(() => LiteralParser.Or<IFunctionArgumentToken>(FunctionCallParser)
-                                                                                                                                                                                    .Many()
-                                                                                                                                                                                    .Token());
+                                                                                                                                                                                    .Many());
 
         public static readonly Parser<FunctionCall> FunctionCallParser = (from name in FunctionNameParser
                                                                           from argumentsStart in Parse.Char('(')
@@ -32,6 +36,7 @@ namespace Manisero.DSLExecutor.Parser.SampleDSL.Parsing
                                                                                   Arguments = arguments.ToList()
                                                                               }).Token();
 
+        // TokenTree
         public static readonly Parser<TokenTree> TokenTreeParser = FunctionCallParser.AtLeastOnce()
                                                                                      .Select(x => new TokenTree
                                                                                          {

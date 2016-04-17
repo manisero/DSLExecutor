@@ -55,7 +55,9 @@ namespace Manisero.DSLExecutor.Parser.SampleDSL.Tests.Parsing
         }
 
         [Theory]
+        [InlineData("'\\\\'", "\\")]
         [InlineData("'\\''", "'")]
+        [InlineData("'a\\\\b\\'c'", "a\\b'c")]
         public void parses_literal_with_escaped_characters(string input, string expectedValue)
         {
             var result = Act(input);

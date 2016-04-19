@@ -12,7 +12,7 @@ namespace Manisero.DSLExecutor.Parser.SampleDSL.Tests.Parsing
     {
         private TokenTree Act(string input)
         {
-            return Parsers.TokenTreeParser.Parse(input);
+            return TokenTreeParsers.TokenTreeParser.Parse(input);
         }
 
         [Theory]

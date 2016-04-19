@@ -11,7 +11,7 @@ namespace Manisero.DSLExecutor.Parser.SampleDSL.Tests.Parsing
     {
         private FunctionCall Act(string input)
         {
-            return Parsers.FunctionCallParser.Parse(input);
+            return FunctionCallParsers.FunctionCallParser.Parse(input);
         }
 
         [Theory]

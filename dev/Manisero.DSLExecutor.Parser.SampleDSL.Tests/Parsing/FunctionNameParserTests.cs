@@ -10,7 +10,7 @@ namespace Manisero.DSLExecutor.Parser.SampleDSL.Tests.Parsing
     {
         private string Act(string input)
         {
-            return Parsers.FunctionNameParser.Parse(input);
+            return FunctionCallParsers.FunctionNameParser.Parse(input);
         }
 
         [Theory]

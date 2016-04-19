@@ -10,7 +10,7 @@ namespace Manisero.DSLExecutor.Parser.SampleDSL.Tests.Parsing
     {
         private Literal Act(string input)
         {
-            return Parsers.LiteralParser.Parse(input);
+            return LiteralParsers.LiteralParser.Parse(input);
         }
 
         public void parses_empty_literal()

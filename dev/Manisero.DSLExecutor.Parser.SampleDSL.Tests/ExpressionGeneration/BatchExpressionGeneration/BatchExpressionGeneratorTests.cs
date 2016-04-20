@@ -3,20 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
 using Manisero.DSLExecutor.Domain.ExpressionsDomain;
-using Manisero.DSLExecutor.Parser.SampleDSL.ExpressionGeneration;
+using Manisero.DSLExecutor.Parser.SampleDSL.ExpressionGeneration.BatchExpressionGeneration;
 using Manisero.DSLExecutor.Parser.SampleDSL.ExpressionGeneration.FunctionExpressionGeneration;
 using Manisero.DSLExecutor.Parser.SampleDSL.Parsing.Tokens;
 using Manisero.DSLExecutor.Parser.SampleDSL.Tests.TestsDomain;
 using NSubstitute;
 using Xunit;
 
-namespace Manisero.DSLExecutor.Parser.SampleDSL.Tests.ExpressionGeneration
+namespace Manisero.DSLExecutor.Parser.SampleDSL.Tests.ExpressionGeneration.BatchExpressionGeneration
 {
-    public class ExpressionGeneratorTests
+    public class BatchExpressionGeneratorTests
     {
         private IBatchExpression Act(TokenTree tokenTree, IFunctionExpressionGenerator functionExpressionGenerator = null)
         {
-            var generator = new ExpressionGenerator(functionExpressionGenerator);
+            var generator = new BatchExpressionGenerator(functionExpressionGenerator);
 
             return generator.Generate(tokenTree);
         }

@@ -6,20 +6,20 @@ using Manisero.DSLExecutor.Domain.ExpressionsDomain;
 using Manisero.DSLExecutor.Parser.SampleDSL.ExpressionGeneration.FunctionExpressionGeneration;
 using Manisero.DSLExecutor.Parser.SampleDSL.Parsing.Tokens;
 
-namespace Manisero.DSLExecutor.Parser.SampleDSL.ExpressionGeneration
+namespace Manisero.DSLExecutor.Parser.SampleDSL.ExpressionGeneration.BatchExpressionGeneration
 {
-    public interface IExpressionGenerator
+    public interface IBatchExpressionGenerator
     {
         IBatchExpression Generate(TokenTree tokenTree);
     }
 
-    public class ExpressionGenerator : IExpressionGenerator
+    public class BatchExpressionGenerator : IBatchExpressionGenerator
     {
         private readonly IFunctionExpressionGenerator _functionExpressionGenerator;
 
         private readonly Lazy<MethodInfo> _createBatchExpressionMethod;
 
-        public ExpressionGenerator(IFunctionExpressionGenerator functionExpressionGenerator)
+        public BatchExpressionGenerator(IFunctionExpressionGenerator functionExpressionGenerator)
         {
             _functionExpressionGenerator = functionExpressionGenerator;
 

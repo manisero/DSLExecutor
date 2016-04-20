@@ -4,6 +4,7 @@ using Manisero.DSLExecutor.Domain.FunctionsDomain;
 using Manisero.DSLExecutor.Parser.SampleDSL.ExpressionGeneration.FunctionExpressionGeneration;
 using Manisero.DSLExecutor.Parser.SampleDSL.Parsing.Tokens;
 using Manisero.DSLExecutor.Parser.SampleDSL.Tests.TestsDomain;
+using Manisero.DSLExecutor.Utilities;
 using Xunit;
 
 namespace Manisero.DSLExecutor.Parser.SampleDSL.Tests.ExpressionGeneration.FunctionExpressionGeneration

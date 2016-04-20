@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
 using Manisero.DSLExecutor.Domain.ExpressionsDomain;
+using Manisero.DSLExecutor.Parser.SampleDSL.ExpressionGeneration;
 using Manisero.DSLExecutor.Parser.SampleDSL.ExpressionGeneration.BatchExpressionGeneration;
-using Manisero.DSLExecutor.Parser.SampleDSL.ExpressionGeneration.FunctionExpressionGeneration;
 using Manisero.DSLExecutor.Parser.SampleDSL.Parsing.Tokens;
 using Manisero.DSLExecutor.Parser.SampleDSL.Tests.TestsDomain;
 using NSubstitute;
@@ -14,9 +14,9 @@ namespace Manisero.DSLExecutor.Parser.SampleDSL.Tests.ExpressionGeneration.Batch
 {
     public class BatchExpressionGeneratorTests
     {
-        private IBatchExpression Act(TokenTree tokenTree, IFunctionExpressionGenerator functionExpressionGenerator = null)
+        private IBatchExpression Act(TokenTree tokenTree, IExpressionGenerator expressionGenerator = null)
         {
-            var generator = new BatchExpressionGenerator(functionExpressionGenerator);
+            var generator = new BatchExpressionGenerator(new Lazy<IExpressionGenerator>(() => expressionGenerator));
 
             return generator.Generate(tokenTree);
         }
@@ -37,11 +37,11 @@ namespace Manisero.DSLExecutor.Parser.SampleDSL.Tests.ExpressionGeneration.Batch
 
             var functionExpression = new FunctionExpression<EmptyFunction, Domain.FunctionsDomain.Void>();
 
-            var functionExpressionGenerator = Substitute.For<IFunctionExpressionGenerator>();
-            functionExpressionGenerator.Generate(tokenTree.FunctionCalls[0])
+            var expressionGenerator = Substitute.For<IExpressionGenerator>();
+            expressionGenerator.Generate(tokenTree.FunctionCalls[0])
                                        .Returns(functionExpression);
 
-            var result = Act(tokenTree, functionExpressionGenerator);
+            var result = Act(tokenTree, expressionGenerator);
 
             result.Should().NotBeNull();
             result.SideExpressions.Should().BeEmpty();
@@ -66,14 +66,14 @@ namespace Manisero.DSLExecutor.Parser.SampleDSL.Tests.ExpressionGeneration.Batch
                     FunctionCalls = functionExpressions.Select(x => x.Item1).ToList()
                 };
 
-            var functionExpressionGenerator = Substitute.For<IFunctionExpressionGenerator>();
+            var expressionGenerator = Substitute.For<IExpressionGenerator>();
 
             foreach (var expression in functionExpressions)
             {
-                functionExpressionGenerator.Generate(expression.Item1).Returns(expression.Item2);
+                expressionGenerator.Generate(expression.Item1).Returns(expression.Item2);
             }
 
-            var result = Act(tokenTree, functionExpressionGenerator);
+            var result = Act(tokenTree, expressionGenerator);
 
             result.Should().NotBeNull();
             result.SideExpressions.ShouldAllBeEquivalentTo(functionExpressions.Take(2).Select(x => x.Item2).ToList());

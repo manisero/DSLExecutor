@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Manisero.DSLExecutor.Domain.ExpressionsDomain;
-using Manisero.DSLExecutor.Parser.SampleDSL.ExpressionGeneration.FunctionExpressionGeneration;
 using Manisero.DSLExecutor.Parser.SampleDSL.Parsing.Tokens;
 
 namespace Manisero.DSLExecutor.Parser.SampleDSL.ExpressionGeneration.BatchExpressionGeneration
@@ -15,13 +14,13 @@ namespace Manisero.DSLExecutor.Parser.SampleDSL.ExpressionGeneration.BatchExpres
 
     public class BatchExpressionGenerator : IBatchExpressionGenerator
     {
-        private readonly IFunctionExpressionGenerator _functionExpressionGenerator;
+        private readonly Lazy<IExpressionGenerator> _expressionGeneratorFactory;
 
         private readonly Lazy<MethodInfo> _createBatchExpressionMethod;
 
-        public BatchExpressionGenerator(IFunctionExpressionGenerator functionExpressionGenerator)
+        public BatchExpressionGenerator(Lazy<IExpressionGenerator> expressionGeneratorFactory)
         {
-            _functionExpressionGenerator = functionExpressionGenerator;
+            _expressionGeneratorFactory = expressionGeneratorFactory;
 
             _createBatchExpressionMethod = new Lazy<MethodInfo>(() => GetType().GetMethod(nameof(CreateBatchExpression),
                                                                                           BindingFlags.Instance | BindingFlags.NonPublic));
@@ -30,7 +29,7 @@ namespace Manisero.DSLExecutor.Parser.SampleDSL.ExpressionGeneration.BatchExpres
         public IBatchExpression Generate(TokenTree tokenTree)
         {
             var functionExpressions = tokenTree.FunctionCalls
-                                               .Select(x => _functionExpressionGenerator.Generate(x))
+                                               .Select(x => _expressionGeneratorFactory.Value.Generate(x))
                                                .ToList();
 
             var sideExpressions = functionExpressions.Take(functionExpressions.Count - 1);

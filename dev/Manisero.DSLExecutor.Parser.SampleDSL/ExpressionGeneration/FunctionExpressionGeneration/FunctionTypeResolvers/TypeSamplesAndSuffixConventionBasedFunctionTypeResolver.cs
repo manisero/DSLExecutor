@@ -2,20 +2,15 @@
 using System.Collections.Generic;
 using Manisero.DSLExecutor.Parser.SampleDSL.Parsing.Tokens;
 
-namespace Manisero.DSLExecutor.Parser.SampleDSL.ExpressionGeneration.FunctionExpressionGeneration
+namespace Manisero.DSLExecutor.Parser.SampleDSL.ExpressionGeneration.FunctionExpressionGeneration.FunctionTypeResolvers
 {
-    public interface IFunctionTypeResolver
-    {
-        Type Resolve(FunctionCall functionCall);
-    }
-
-    public class FunctionTypeResolver : IFunctionTypeResolver
+    public class TypeSamplesAndSuffixConventionBasedFunctionTypeResolver : IFunctionTypeResolver
     {
         private readonly IEnumerable<Type> _functionTypeSamples;
 
         private readonly Lazy<IDictionary<string, Type>> _functionNameToTypeMap;
 
-        public FunctionTypeResolver(IEnumerable<Type> functionTypeSamples)
+        public TypeSamplesAndSuffixConventionBasedFunctionTypeResolver(IEnumerable<Type> functionTypeSamples)
         {
             _functionTypeSamples = functionTypeSamples;
 
@@ -37,7 +32,8 @@ namespace Manisero.DSLExecutor.Parser.SampleDSL.ExpressionGeneration.FunctionExp
 
             foreach (var functionTypeSample in _functionTypeSamples)
             {
-                // TODO: Scan sample's assembly for functions
+                // TODO: Scan sample's assembly for function types
+                // TODO: Fill result with type names without "Function" suffix
             }
 
             return result;

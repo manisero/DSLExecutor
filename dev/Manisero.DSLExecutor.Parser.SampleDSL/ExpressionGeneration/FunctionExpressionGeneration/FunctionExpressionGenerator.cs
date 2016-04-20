@@ -36,6 +36,12 @@ namespace Manisero.DSLExecutor.Parser.SampleDSL.ExpressionGeneration.FunctionExp
         public IFunctionExpression Generate(FunctionCall functionCall)
         {
             var functionType = _functionTypeResolver.Resolve(functionCall);
+
+            if (functionType == null)
+            {
+                throw new InvalidOperationException($"Could not find function of name '{functionCall.FunctionName}'.");
+            }
+
             var functionMetadata = _functionMetadataProvider.Provide(functionType);
             var argumentExpressions = _functionArgumentExpressionsGenerator.Generate(functionCall.Arguments, functionMetadata);
 

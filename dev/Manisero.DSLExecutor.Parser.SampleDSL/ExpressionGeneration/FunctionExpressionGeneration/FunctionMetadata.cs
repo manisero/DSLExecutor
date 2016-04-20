@@ -7,8 +7,15 @@ namespace Manisero.DSLExecutor.Parser.SampleDSL.ExpressionGeneration.FunctionExp
     {
         public string Name { get; set; }
 
-        public IDictionary<string, Type> Parameters { get; set; }
+        public IList<FunctionParameterMetadata> Parameters { get; set; }
 
         public Type ResultType { get; set; }
+    }
+
+    public class FunctionParameterMetadata
+    {
+        public string Name { get; set; }
+
+        public Type Type { get; set; }
     }
 }

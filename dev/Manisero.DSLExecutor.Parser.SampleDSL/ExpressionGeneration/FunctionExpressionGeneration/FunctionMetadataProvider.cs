@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Manisero.DSLExecutor.Parser.SampleDSL.ExpressionGeneration
+namespace Manisero.DSLExecutor.Parser.SampleDSL.ExpressionGeneration.FunctionExpressionGeneration
 {
     public interface IFunctionMetadataProvider
     {

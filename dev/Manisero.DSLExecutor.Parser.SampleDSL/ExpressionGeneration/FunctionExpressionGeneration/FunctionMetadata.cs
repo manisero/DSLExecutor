@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Manisero.DSLExecutor.Parser.SampleDSL.ExpressionGeneration
+namespace Manisero.DSLExecutor.Parser.SampleDSL.ExpressionGeneration.FunctionExpressionGeneration
 {
     public class FunctionMetadata
     {

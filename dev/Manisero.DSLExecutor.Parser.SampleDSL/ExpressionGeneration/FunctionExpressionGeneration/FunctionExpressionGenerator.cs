@@ -5,7 +5,7 @@ using Manisero.DSLExecutor.Domain.ExpressionsDomain;
 using Manisero.DSLExecutor.Domain.FunctionsDomain;
 using Manisero.DSLExecutor.Parser.SampleDSL.Parsing.Tokens;
 
-namespace Manisero.DSLExecutor.Parser.SampleDSL.ExpressionGeneration
+namespace Manisero.DSLExecutor.Parser.SampleDSL.ExpressionGeneration.FunctionExpressionGeneration
 {
     public interface IFunctionExpressionGenerator
     {

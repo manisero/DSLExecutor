@@ -4,6 +4,7 @@ using System.Linq;
 using FluentAssertions;
 using Manisero.DSLExecutor.Domain.ExpressionsDomain;
 using Manisero.DSLExecutor.Parser.SampleDSL.ExpressionGeneration;
+using Manisero.DSLExecutor.Parser.SampleDSL.ExpressionGeneration.FunctionExpressionGeneration;
 using Manisero.DSLExecutor.Parser.SampleDSL.Parsing.Tokens;
 using Manisero.DSLExecutor.Parser.SampleDSL.Tests.TestsDomain;
 using NSubstitute;

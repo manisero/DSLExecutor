@@ -1,12 +1,12 @@
 ﻿using FluentAssertions;
 using Manisero.DSLExecutor.Domain.ExpressionsDomain;
 using Manisero.DSLExecutor.Domain.FunctionsDomain;
-using Manisero.DSLExecutor.Parser.SampleDSL.ExpressionGeneration;
+using Manisero.DSLExecutor.Parser.SampleDSL.ExpressionGeneration.FunctionExpressionGeneration;
 using Manisero.DSLExecutor.Parser.SampleDSL.Parsing.Tokens;
 using Manisero.DSLExecutor.Parser.SampleDSL.Tests.TestsDomain;
 using Xunit;
 
-namespace Manisero.DSLExecutor.Parser.SampleDSL.Tests.ExpressionGeneration
+namespace Manisero.DSLExecutor.Parser.SampleDSL.Tests.ExpressionGeneration.FunctionExpressionGeneration
 {
     public class FunctionExpressionGeneratorTests
     {

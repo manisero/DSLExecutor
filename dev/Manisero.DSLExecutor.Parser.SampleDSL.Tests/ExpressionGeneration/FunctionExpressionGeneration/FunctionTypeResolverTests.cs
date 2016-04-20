@@ -1,8 +1,8 @@
 ﻿using System;
-using Manisero.DSLExecutor.Parser.SampleDSL.ExpressionGeneration;
+using Manisero.DSLExecutor.Parser.SampleDSL.ExpressionGeneration.FunctionExpressionGeneration;
 using Manisero.DSLExecutor.Parser.SampleDSL.Parsing.Tokens;
 
-namespace Manisero.DSLExecutor.Parser.SampleDSL.Tests.ExpressionGeneration
+namespace Manisero.DSLExecutor.Parser.SampleDSL.Tests.ExpressionGeneration.FunctionExpressionGeneration
 {
     public class FunctionTypeResolverTests
     {

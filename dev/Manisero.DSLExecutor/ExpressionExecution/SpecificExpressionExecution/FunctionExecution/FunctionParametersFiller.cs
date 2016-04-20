@@ -42,13 +42,13 @@ namespace Manisero.DSLExecutor.ExpressionExecution.SpecificExpressionExecution.F
             if (!argumentExpressions.TryGetValue(property.Name, out argumentExpression))
             {
                 // TODO: Unit-test this case
-                throw new InvalidOperationException($"Argument Expression for '{property.Name}' parameter not found.");
+                throw new InvalidOperationException($"Argument expression for '{property.Name}' parameter not found.");
             }
 
             if (!property.PropertyType.IsAssignableFrom(argumentExpression.ResultType))
             {
                 // TODO: Unit-test this case
-                throw new InvalidOperationException($"Result Type of Argument Expression for '{property.Name}' parameter is invalid. Expected: '{property.PropertyType}' or its child. Actual: '{argumentExpression.ResultType}'.");
+                throw new InvalidOperationException($"Result type of argument expression for '{property.Name}' parameter is invalid. Expected: '{property.PropertyType}' or its child. Actual: '{argumentExpression.ResultType}'.");
             }
 
             var argument = _expressionExecutorFactory.Value.Execute(argumentExpression);

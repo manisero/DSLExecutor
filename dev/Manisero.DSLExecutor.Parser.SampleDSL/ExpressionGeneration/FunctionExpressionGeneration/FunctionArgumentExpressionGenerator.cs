@@ -24,7 +24,7 @@ namespace Manisero.DSLExecutor.Parser.SampleDSL.ExpressionGeneration.FunctionExp
 
             if (!functionParameterMetadata.Type.IsAssignableFrom(argumentExpression.ResultType))
             {
-                throw new InvalidOperationException($"Result Type of Argument Token for '{functionParameterMetadata.Name}' parameter is invalid. Expected: '{functionParameterMetadata.Type}' or its child. Actual: '{argumentExpression.ResultType}'.");
+                throw new InvalidOperationException($"Result type of argument token for '{functionParameterMetadata.Name}' parameter is invalid. Expected: '{functionParameterMetadata.Type}' or its child. Actual: '{argumentExpression.ResultType}'.");
             }
 
             return argumentExpression;

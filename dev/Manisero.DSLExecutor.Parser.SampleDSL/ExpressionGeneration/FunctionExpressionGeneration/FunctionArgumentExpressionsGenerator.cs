@@ -23,7 +23,7 @@ namespace Manisero.DSLExecutor.Parser.SampleDSL.ExpressionGeneration.FunctionExp
         {
             if (functionArgumentTokens.Count != functionMetadata.Parameters.Count)
             {
-                throw new InvalidOperationException("Argument Tokens number does not match the function's parameters number.");
+                throw new InvalidOperationException("Argument tokens number does not match the function's parameters number.");
             }
 
             var result = new Dictionary<string, IExpression>();

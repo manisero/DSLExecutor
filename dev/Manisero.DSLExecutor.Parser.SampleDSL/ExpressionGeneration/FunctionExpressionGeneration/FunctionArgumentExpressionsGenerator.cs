@@ -12,11 +12,11 @@ namespace Manisero.DSLExecutor.Parser.SampleDSL.ExpressionGeneration.FunctionExp
 
     public class FunctionArgumentExpressionsGenerator : IFunctionArgumentExpressionsGenerator
     {
-        private readonly Lazy<IExpressionGenerator> _expressionGeneratorFactory;
+        private readonly IFunctionArgumentExpressionGenerator _functionArgumentExpressionGenerator;
 
-        public FunctionArgumentExpressionsGenerator(Lazy<IExpressionGenerator> expressionGeneratorFactory)
+        public FunctionArgumentExpressionsGenerator(IFunctionArgumentExpressionGenerator functionArgumentExpressionGenerator)
         {
-            _expressionGeneratorFactory = expressionGeneratorFactory;
+            _functionArgumentExpressionGenerator = functionArgumentExpressionGenerator;
         }
 
         public IDictionary<string, IExpression> Generate(IList<IFunctionArgumentToken> functionArgumentTokens, FunctionMetadata functionMetadata)
@@ -33,12 +33,7 @@ namespace Manisero.DSLExecutor.Parser.SampleDSL.ExpressionGeneration.FunctionExp
                 var token = functionArgumentTokens[i];
                 var parameter = functionMetadata.Parameters[i];
 
-                var argumentExpression = _expressionGeneratorFactory.Value.Generate(token);
-
-                if (!parameter.Type.IsAssignableFrom(argumentExpression.ResultType))
-                {
-                    throw new InvalidOperationException($"Result Type of Argument Token for '{parameter.Name}' parameter is invalid. Expected: '{parameter.Type}' or its child. Actual: '{argumentExpression.ResultType}'.");
-                }
+                var argumentExpression = _functionArgumentExpressionGenerator.Generate(token, parameter);
 
                 result.Add(parameter.Name, argumentExpression);
             }

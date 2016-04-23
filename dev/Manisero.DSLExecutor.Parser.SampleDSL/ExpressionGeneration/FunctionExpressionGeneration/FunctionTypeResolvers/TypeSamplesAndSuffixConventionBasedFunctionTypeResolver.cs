@@ -1,5 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using Manisero.DSLExecutor.Domain.FunctionsDomain;
+using Manisero.DSLExecutor.Extensions;
 using Manisero.DSLExecutor.Parser.SampleDSL.Parsing.Tokens;
 
 namespace Manisero.DSLExecutor.Parser.SampleDSL.ExpressionGeneration.FunctionExpressionGeneration.FunctionTypeResolvers
@@ -30,9 +34,18 @@ namespace Manisero.DSLExecutor.Parser.SampleDSL.ExpressionGeneration.FunctionExp
         {
             var result = new Dictionary<string, Type>();
 
-            foreach (var functionTypeSample in _functionTypeSamples)
+            var assembliesToScan = _functionTypeSamples.Select(x => x.Assembly).Distinct();
+            var typesToScan = assembliesToScan.SelectMany(x => x.GetTypes());
+
+            foreach (var type in typesToScan)
             {
-                // TODO: Scan sample's assembly for function types
+                var functionDefinitionImplementation = type.GetGenericInterfaceDefinitionImplementation(typeof(IFunction<>));
+
+                if (functionDefinitionImplementation == null)
+                {
+                    continue;
+                }
+
                 // TODO: Fill result with type names without "Function" suffix
             }
 

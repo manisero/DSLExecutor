@@ -1,7 +1,7 @@
 ﻿using System;
 using Manisero.DSLExecutor.Utilities;
 
-namespace Manisero.DSLExecutor.Parser.SampleDSL.ExpressionGeneration.FunctionExpressionGeneration
+namespace Manisero.DSLExecutor.Parser.SampleDSL.ExpressionGeneration.FunctionExpressionGeneration.MetadataResolution
 {
     public class FunctionMetadata
     {

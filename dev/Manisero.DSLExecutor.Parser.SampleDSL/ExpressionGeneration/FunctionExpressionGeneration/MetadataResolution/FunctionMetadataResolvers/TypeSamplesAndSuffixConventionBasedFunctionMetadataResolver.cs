@@ -4,7 +4,7 @@ using System.Linq;
 using Manisero.DSLExecutor.Parser.SampleDSL.Parsing.Tokens;
 using Manisero.DSLExecutor.Utilities;
 
-namespace Manisero.DSLExecutor.Parser.SampleDSL.ExpressionGeneration.FunctionExpressionGeneration.FunctionTypeResolvers
+namespace Manisero.DSLExecutor.Parser.SampleDSL.ExpressionGeneration.FunctionExpressionGeneration.MetadataResolution.FunctionMetadataResolvers
 {
     public class TypeSamplesAndSuffixConventionBasedFunctionMetadataResolver : IFunctionMetadataResolver
     {

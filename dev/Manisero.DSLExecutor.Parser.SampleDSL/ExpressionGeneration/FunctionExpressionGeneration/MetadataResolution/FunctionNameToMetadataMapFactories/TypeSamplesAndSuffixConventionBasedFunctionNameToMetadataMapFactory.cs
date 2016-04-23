@@ -1,37 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Manisero.DSLExecutor.Parser.SampleDSL.Parsing.Tokens;
 using Manisero.DSLExecutor.Utilities;
 
-namespace Manisero.DSLExecutor.Parser.SampleDSL.ExpressionGeneration.FunctionExpressionGeneration.MetadataResolution.FunctionMetadataResolvers
+namespace Manisero.DSLExecutor.Parser.SampleDSL.ExpressionGeneration.FunctionExpressionGeneration.MetadataResolution.FunctionNameToMetadataMapFactories
 {
-    public class TypeSamplesAndSuffixConventionBasedFunctionMetadataResolver : IFunctionMetadataResolver
+    public class TypeSamplesAndSuffixConventionBasedFunctionNameToMetadataMapFactory : IFunctionNameToMetadataMapFactory
     {
+        private const string FunctionTypeNameSuffix = "Function";
+
         private readonly IEnumerable<Type> _functionTypeSamples;
         private readonly IFunctionContractProvider _functionContractProvider;
 
-        private readonly Lazy<IDictionary<string, FunctionMetadata>> _functionNameToMetadataMap;
-
-        public TypeSamplesAndSuffixConventionBasedFunctionMetadataResolver(IEnumerable<Type> functionTypeSamples,
-                                                                           IFunctionContractProvider functionContractProvider)
+        public TypeSamplesAndSuffixConventionBasedFunctionNameToMetadataMapFactory(IEnumerable<Type> functionTypeSamples,
+                                                                                   IFunctionContractProvider functionContractProvider)
         {
             _functionTypeSamples = functionTypeSamples;
             _functionContractProvider = functionContractProvider;
-
-            _functionNameToMetadataMap = new Lazy<IDictionary<string, FunctionMetadata>>(InitializeFunctionNameToMetadataMap);
         }
 
-        public FunctionMetadata Resolve(FunctionCall functionCall)
-        {
-            FunctionMetadata result;
-
-            return !_functionNameToMetadataMap.Value.TryGetValue(functionCall.FunctionName, out result)
-                       ? null
-                       : result;
-        }
-
-        private IDictionary<string, FunctionMetadata> InitializeFunctionNameToMetadataMap()
+        public IDictionary<string, FunctionMetadata> Create()
         {
             var result = new Dictionary<string, FunctionMetadata>();
 
@@ -62,10 +50,8 @@ namespace Manisero.DSLExecutor.Parser.SampleDSL.ExpressionGeneration.FunctionExp
 
         private string GetFunctionName(Type functionType)
         {
-            const string functionTypeNameSuffix = "Function";
-
-            return functionType.Name.EndsWith(functionTypeNameSuffix)
-                       ? functionType.Name.Substring(0, functionType.Name.Length - functionTypeNameSuffix.Length)
+            return functionType.Name.EndsWith(FunctionTypeNameSuffix)
+                       ? functionType.Name.Substring(0, functionType.Name.Length - FunctionTypeNameSuffix.Length)
                        : functionType.Name;
         }
     }

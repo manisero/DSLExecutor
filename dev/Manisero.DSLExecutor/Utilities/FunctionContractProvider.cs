@@ -18,8 +18,7 @@ namespace Manisero.DSLExecutor.Utilities
 
             if (functionDefinitionImplementation == null)
             {
-                throw new ArgumentException($"{nameof(functionType)} must implement {typeof(IFunction<>)} interface.",
-                                            nameof(functionType));
+                return null;
             }
 
             var parameters = functionType.GetProperties()

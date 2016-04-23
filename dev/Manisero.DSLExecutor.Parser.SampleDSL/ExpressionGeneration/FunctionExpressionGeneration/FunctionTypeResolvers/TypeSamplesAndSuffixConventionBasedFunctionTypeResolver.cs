@@ -1,22 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using Manisero.DSLExecutor.Domain.FunctionsDomain;
-using Manisero.DSLExecutor.Extensions;
 using Manisero.DSLExecutor.Parser.SampleDSL.Parsing.Tokens;
+using Manisero.DSLExecutor.Utilities;
 
 namespace Manisero.DSLExecutor.Parser.SampleDSL.ExpressionGeneration.FunctionExpressionGeneration.FunctionTypeResolvers
 {
     public class TypeSamplesAndSuffixConventionBasedFunctionTypeResolver : IFunctionTypeResolver
     {
         private readonly IEnumerable<Type> _functionTypeSamples;
+        private readonly IFunctionContractProvider _functionContractProvider;
 
         private readonly Lazy<IDictionary<string, Type>> _functionNameToTypeMap;
 
-        public TypeSamplesAndSuffixConventionBasedFunctionTypeResolver(IEnumerable<Type> functionTypeSamples)
+        public TypeSamplesAndSuffixConventionBasedFunctionTypeResolver(IEnumerable<Type> functionTypeSamples,
+                                                                       IFunctionContractProvider functionContractProvider)
         {
             _functionTypeSamples = functionTypeSamples;
+            _functionContractProvider = functionContractProvider;
 
             _functionNameToTypeMap = new Lazy<IDictionary<string, Type>>(InitializeFunctionNameToTypeMap);
         }
@@ -39,17 +40,28 @@ namespace Manisero.DSLExecutor.Parser.SampleDSL.ExpressionGeneration.FunctionExp
 
             foreach (var type in typesToScan)
             {
-                var functionDefinitionImplementation = type.GetGenericInterfaceDefinitionImplementation(typeof(IFunction<>));
+                var functionContract = _functionContractProvider.Provide(type);
 
-                if (functionDefinitionImplementation == null)
+                if (functionContract == null)
                 {
                     continue;
                 }
 
-                // TODO: Fill result with type names without "Function" suffix
+                var functionName = GetFunctionName(type);
+
+                result.Add(functionName, type);
             }
 
             return result;
+        }
+
+        private string GetFunctionName(Type functionType)
+        {
+            const string functionTypeNameSuffix = "Function";
+
+            return functionType.Name.EndsWith(functionTypeNameSuffix)
+                       ? functionType.Name.Substring(0, functionType.Name.Length - functionTypeNameSuffix.Length)
+                       : functionType.Name;
         }
     }
 }

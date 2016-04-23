@@ -4,7 +4,6 @@ using System.Reflection;
 using Manisero.DSLExecutor.Domain.ExpressionsDomain;
 using Manisero.DSLExecutor.Domain.FunctionsDomain;
 using Manisero.DSLExecutor.Parser.SampleDSL.Parsing.Tokens;
-using Manisero.DSLExecutor.Utilities;
 
 namespace Manisero.DSLExecutor.Parser.SampleDSL.ExpressionGeneration.FunctionExpressionGeneration
 {
@@ -15,18 +14,15 @@ namespace Manisero.DSLExecutor.Parser.SampleDSL.ExpressionGeneration.FunctionExp
 
     public class FunctionExpressionGenerator : IFunctionExpressionGenerator
     {
-        private readonly IFunctionTypeResolver _functionTypeResolver;
-        private readonly IFunctionContractProvider _functionContractProvider;
+        private readonly IFunctionMetadataResolver _functionMetadataResolver;
         private readonly IFunctionArgumentExpressionsGenerator _functionArgumentExpressionsGenerator;
 
         private readonly Lazy<MethodInfo> _createFunctionExpressionMethod;
 
-        public FunctionExpressionGenerator(IFunctionTypeResolver functionTypeResolver,
-                                           IFunctionContractProvider functionContractProvider,
+        public FunctionExpressionGenerator(IFunctionMetadataResolver functionMetadataResolver,
                                            IFunctionArgumentExpressionsGenerator functionArgumentExpressionsGenerator)
         {
-            _functionTypeResolver = functionTypeResolver;
-            _functionContractProvider = functionContractProvider;
+            _functionMetadataResolver = functionMetadataResolver;
             _functionArgumentExpressionsGenerator = functionArgumentExpressionsGenerator;
 
             _createFunctionExpressionMethod = new Lazy<MethodInfo>(() => GetType().GetMethod(nameof(CreateFunctionExpression),
@@ -35,20 +31,20 @@ namespace Manisero.DSLExecutor.Parser.SampleDSL.ExpressionGeneration.FunctionExp
 
         public IFunctionExpression Generate(FunctionCall functionCall)
         {
-            var functionType = _functionTypeResolver.Resolve(functionCall);
+            var functionMetadata = _functionMetadataResolver.Resolve(functionCall);
 
-            if (functionType == null)
+            if (functionMetadata == null)
             {
                 throw new InvalidOperationException($"Could not find function of name '{functionCall.FunctionName}'.");
             }
-
-            var functionContract = _functionContractProvider.Provide(functionType);
-            var argumentExpressions = _functionArgumentExpressionsGenerator.Generate(functionCall.Arguments, functionContract);
+            
+            var argumentExpressions = _functionArgumentExpressionsGenerator.Generate(functionCall.Arguments, functionMetadata.FunctionContract);
 
             try
             {
                 return (IFunctionExpression)_createFunctionExpressionMethod.Value
-                                                                           .MakeGenericMethod(functionType, functionContract.ResultType)
+                                                                           .MakeGenericMethod(functionMetadata.FunctionType,
+                                                                                              functionMetadata.FunctionContract.ResultType)
                                                                            .Invoke(this,
                                                                                    new object[] { argumentExpressions });
             }

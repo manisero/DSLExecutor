@@ -4,7 +4,6 @@ using Manisero.DSLExecutor.Domain.FunctionsDomain;
 using Manisero.DSLExecutor.Parser.SampleDSL.ExpressionGeneration.FunctionExpressionGeneration;
 using Manisero.DSLExecutor.Parser.SampleDSL.Parsing.Tokens;
 using Manisero.DSLExecutor.Parser.SampleDSL.Tests.TestsDomain;
-using Manisero.DSLExecutor.Utilities;
 using Xunit;
 
 namespace Manisero.DSLExecutor.Parser.SampleDSL.Tests.ExpressionGeneration.FunctionExpressionGeneration
@@ -12,11 +11,10 @@ namespace Manisero.DSLExecutor.Parser.SampleDSL.Tests.ExpressionGeneration.Funct
     public class FunctionExpressionGeneratorTests
     {
         private IFunctionExpression Act(FunctionCall functionCall,
-                                        IFunctionTypeResolver functionTypeResolver = null,
-                                        IFunctionContractProvider functionContractProvider = null,
+                                        IFunctionMetadataResolver functionTypeResolver = null,
                                         IFunctionArgumentExpressionsGenerator functionArgumentExpressionsGenerator = null)
         {
-            var generator = new FunctionExpressionGenerator(functionTypeResolver, functionContractProvider, functionArgumentExpressionsGenerator);
+            var generator = new FunctionExpressionGenerator(functionTypeResolver, functionArgumentExpressionsGenerator);
 
             return generator.Generate(functionCall);
         }

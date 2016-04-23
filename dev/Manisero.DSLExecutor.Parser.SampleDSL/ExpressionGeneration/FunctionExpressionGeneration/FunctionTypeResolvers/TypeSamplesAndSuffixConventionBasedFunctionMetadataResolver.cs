@@ -6,34 +6,34 @@ using Manisero.DSLExecutor.Utilities;
 
 namespace Manisero.DSLExecutor.Parser.SampleDSL.ExpressionGeneration.FunctionExpressionGeneration.FunctionTypeResolvers
 {
-    public class TypeSamplesAndSuffixConventionBasedFunctionTypeResolver : IFunctionTypeResolver
+    public class TypeSamplesAndSuffixConventionBasedFunctionMetadataResolver : IFunctionMetadataResolver
     {
         private readonly IEnumerable<Type> _functionTypeSamples;
         private readonly IFunctionContractProvider _functionContractProvider;
 
-        private readonly Lazy<IDictionary<string, Type>> _functionNameToTypeMap;
+        private readonly Lazy<IDictionary<string, FunctionMetadata>> _functionNameToMetadataMap;
 
-        public TypeSamplesAndSuffixConventionBasedFunctionTypeResolver(IEnumerable<Type> functionTypeSamples,
-                                                                       IFunctionContractProvider functionContractProvider)
+        public TypeSamplesAndSuffixConventionBasedFunctionMetadataResolver(IEnumerable<Type> functionTypeSamples,
+                                                                           IFunctionContractProvider functionContractProvider)
         {
             _functionTypeSamples = functionTypeSamples;
             _functionContractProvider = functionContractProvider;
 
-            _functionNameToTypeMap = new Lazy<IDictionary<string, Type>>(InitializeFunctionNameToTypeMap);
+            _functionNameToMetadataMap = new Lazy<IDictionary<string, FunctionMetadata>>(InitializeFunctionNameToMetadataMap);
         }
 
-        public Type Resolve(FunctionCall functionCall)
+        public FunctionMetadata Resolve(FunctionCall functionCall)
         {
-            Type result;
+            FunctionMetadata result;
 
-            return !_functionNameToTypeMap.Value.TryGetValue(functionCall.FunctionName, out result)
+            return !_functionNameToMetadataMap.Value.TryGetValue(functionCall.FunctionName, out result)
                        ? null
                        : result;
         }
 
-        private IDictionary<string, Type> InitializeFunctionNameToTypeMap()
+        private IDictionary<string, FunctionMetadata> InitializeFunctionNameToMetadataMap()
         {
-            var result = new Dictionary<string, Type>();
+            var result = new Dictionary<string, FunctionMetadata>();
 
             var assembliesToScan = _functionTypeSamples.Select(x => x.Assembly).Distinct();
             var typesToScan = assembliesToScan.SelectMany(x => x.GetTypes());
@@ -48,8 +48,13 @@ namespace Manisero.DSLExecutor.Parser.SampleDSL.ExpressionGeneration.FunctionExp
                 }
 
                 var functionName = GetFunctionName(type);
+                var functionMetadata = new FunctionMetadata
+                    {
+                        FunctionType = type,
+                        FunctionContract = functionContract
+                    };
 
-                result.Add(functionName, type);
+                result.Add(functionName, functionMetadata);
             }
 
             return result;

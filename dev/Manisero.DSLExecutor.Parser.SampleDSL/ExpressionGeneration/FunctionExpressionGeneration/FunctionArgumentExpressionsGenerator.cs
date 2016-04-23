@@ -8,7 +8,7 @@ namespace Manisero.DSLExecutor.Parser.SampleDSL.ExpressionGeneration.FunctionExp
 {
     public interface IFunctionArgumentExpressionsGenerator
     {
-        IDictionary<string, IExpression> Generate(IList<IFunctionArgumentToken> functionArgumentTokens, FunctionMetadata functionMetadata);
+        IDictionary<string, IExpression> Generate(IList<IFunctionArgumentToken> functionArgumentTokens, FunctionContract functionContract);
     }
 
     public class FunctionArgumentExpressionsGenerator : IFunctionArgumentExpressionsGenerator
@@ -20,9 +20,9 @@ namespace Manisero.DSLExecutor.Parser.SampleDSL.ExpressionGeneration.FunctionExp
             _functionArgumentExpressionGenerator = functionArgumentExpressionGenerator;
         }
 
-        public IDictionary<string, IExpression> Generate(IList<IFunctionArgumentToken> functionArgumentTokens, FunctionMetadata functionMetadata)
+        public IDictionary<string, IExpression> Generate(IList<IFunctionArgumentToken> functionArgumentTokens, FunctionContract functionContract)
         {
-            if (functionArgumentTokens.Count != functionMetadata.Parameters.Count)
+            if (functionArgumentTokens.Count != functionContract.Parameters.Count)
             {
                 throw new InvalidOperationException("Argument tokens number does not match the function's parameters number.");
             }
@@ -32,7 +32,7 @@ namespace Manisero.DSLExecutor.Parser.SampleDSL.ExpressionGeneration.FunctionExp
             for (var i = 0; i < functionArgumentTokens.Count; i++)
             {
                 var token = functionArgumentTokens[i];
-                var parameter = functionMetadata.Parameters[i];
+                var parameter = functionContract.Parameters[i];
 
                 var argumentExpression = _functionArgumentExpressionGenerator.Generate(token, parameter);
 

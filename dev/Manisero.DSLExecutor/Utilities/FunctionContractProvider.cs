@@ -5,14 +5,14 @@ using Manisero.DSLExecutor.Extensions;
 
 namespace Manisero.DSLExecutor.Utilities
 {
-    public interface IFunctionMetadataProvider
+    public interface IFunctionContractProvider
     {
-        FunctionMetadata Provide(Type functionType);
+        FunctionContract Provide(Type functionType);
     }
 
-    public class FunctionMetadataProvider : IFunctionMetadataProvider
+    public class FunctionContractProvider : IFunctionContractProvider
     {
-        public FunctionMetadata Provide(Type functionType)
+        public FunctionContract Provide(Type functionType)
         {
             var functionDefinitionImplementation = functionType.GetGenericInterfaceDefinitionImplementation(typeof(IFunction<>));
 
@@ -30,7 +30,7 @@ namespace Manisero.DSLExecutor.Utilities
                                              })
                                          .ToList();
 
-            return new FunctionMetadata
+            return new FunctionContract
                 {
                     Parameters = parameters,
                     ResultType = functionDefinitionImplementation.GetGenericArguments()[0]

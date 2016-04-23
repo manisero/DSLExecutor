@@ -13,10 +13,10 @@ namespace Manisero.DSLExecutor.Parser.SampleDSL.Tests.ExpressionGeneration.Funct
     {
         private IFunctionExpression Act(FunctionCall functionCall,
                                         IFunctionTypeResolver functionTypeResolver = null,
-                                        IFunctionMetadataProvider functionMetadataProvider = null,
+                                        IFunctionContractProvider functionContractProvider = null,
                                         IFunctionArgumentExpressionsGenerator functionArgumentExpressionsGenerator = null)
         {
-            var generator = new FunctionExpressionGenerator(functionTypeResolver, functionMetadataProvider, functionArgumentExpressionsGenerator);
+            var generator = new FunctionExpressionGenerator(functionTypeResolver, functionContractProvider, functionArgumentExpressionsGenerator);
 
             return generator.Generate(functionCall);
         }

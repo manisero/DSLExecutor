@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Manisero.DSLExecutor.Utilities
 {
-    public class FunctionMetadata
+    public class FunctionContract
     {
         public IList<FunctionParameterMetadata> Parameters { get; set; }
 

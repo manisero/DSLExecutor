@@ -16,17 +16,17 @@ namespace Manisero.DSLExecutor.Parser.SampleDSL.ExpressionGeneration.FunctionExp
     public class FunctionExpressionGenerator : IFunctionExpressionGenerator
     {
         private readonly IFunctionTypeResolver _functionTypeResolver;
-        private readonly IFunctionMetadataProvider _functionMetadataProvider;
+        private readonly IFunctionContractProvider _functionContractProvider;
         private readonly IFunctionArgumentExpressionsGenerator _functionArgumentExpressionsGenerator;
 
         private readonly Lazy<MethodInfo> _createFunctionExpressionMethod;
 
         public FunctionExpressionGenerator(IFunctionTypeResolver functionTypeResolver,
-                                           IFunctionMetadataProvider functionMetadataProvider,
+                                           IFunctionContractProvider functionContractProvider,
                                            IFunctionArgumentExpressionsGenerator functionArgumentExpressionsGenerator)
         {
             _functionTypeResolver = functionTypeResolver;
-            _functionMetadataProvider = functionMetadataProvider;
+            _functionContractProvider = functionContractProvider;
             _functionArgumentExpressionsGenerator = functionArgumentExpressionsGenerator;
 
             _createFunctionExpressionMethod = new Lazy<MethodInfo>(() => GetType().GetMethod(nameof(CreateFunctionExpression),
@@ -42,13 +42,13 @@ namespace Manisero.DSLExecutor.Parser.SampleDSL.ExpressionGeneration.FunctionExp
                 throw new InvalidOperationException($"Could not find function of name '{functionCall.FunctionName}'.");
             }
 
-            var functionMetadata = _functionMetadataProvider.Provide(functionType);
-            var argumentExpressions = _functionArgumentExpressionsGenerator.Generate(functionCall.Arguments, functionMetadata);
+            var functionContract = _functionContractProvider.Provide(functionType);
+            var argumentExpressions = _functionArgumentExpressionsGenerator.Generate(functionCall.Arguments, functionContract);
 
             try
             {
                 return (IFunctionExpression)_createFunctionExpressionMethod.Value
-                                                                           .MakeGenericMethod(functionType, functionMetadata.ResultType)
+                                                                           .MakeGenericMethod(functionType, functionContract.ResultType)
                                                                            .Invoke(this,
                                                                                    new object[] { argumentExpressions });
             }

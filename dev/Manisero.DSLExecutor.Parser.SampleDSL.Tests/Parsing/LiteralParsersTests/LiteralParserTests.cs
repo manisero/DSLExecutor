@@ -1,6 +1,5 @@
 ﻿using FluentAssertions;
 using Manisero.DSLExecutor.Parser.SampleDSL.Parsing;
-using Manisero.DSLExecutor.Parser.SampleDSL.Parsing.Tokens;
 using Sprache;
 using Xunit;
 
@@ -8,17 +7,17 @@ namespace Manisero.DSLExecutor.Parser.SampleDSL.Tests.Parsing
 {
     public class LiteralParserTests
     {
-        private Literal Act(string input)
+        private string Act(string input)
         {
-            return LiteralParsers.LiteralParser.Parse(input);
+            return LiteralParsers.StringParsers.StringParser.Parse(input);
         }
 
-        public void parses_empty_literal()
+        public void parses_empty_string()
         {
             var result = Act("\"\"");
 
             result.Should().NotBeNull();
-            result.Value.Should().Be("");
+            result.Should().Be("");
         }
 
         [Theory]
@@ -26,43 +25,43 @@ namespace Manisero.DSLExecutor.Parser.SampleDSL.Tests.Parsing
         [InlineData("'ab'", "ab")]
         [InlineData("'1'", "1")]
         [InlineData("'1.2'", "1.2")]
-        public void parses_literal_without_escaped_characters(string input, string expectedValue)
+        public void parses_string_without_escaped_characters(string input, string expectedValue)
         {
             var result = Act(input);
             
-            result.Value.Should().Be(expectedValue);
+            result.Should().Be(expectedValue);
         }
 
         [Theory]
         [InlineData("' a '", " a ")]
         [InlineData("'  a  '", "  a  ")]
         [InlineData("'a b'", "a b")]
-        public void keeps_spaces_within_literal(string input, string expectedValue)
+        public void keeps_spaces_within_string(string input, string expectedValue)
         {
             var result = Act(input);
             
-            result.Value.Should().Be(expectedValue);
+            result.Should().Be(expectedValue);
         }
 
         [Theory]
         [InlineData(" 'a' ", "a")]
         [InlineData("  'a'  ", "a")]
-        public void ignores_spaces_around_literal(string input, string expectedValue)
+        public void ignores_spaces_around_string(string input, string expectedValue)
         {
             var result = Act(input);
             
-            result.Value.Should().Be(expectedValue);
+            result.Should().Be(expectedValue);
         }
 
         [Theory]
         [InlineData("'\\\\'", "\\")]
         [InlineData("'\\''", "'")]
         [InlineData("'a\\\\b\\'c'", "a\\b'c")]
-        public void parses_literal_with_escaped_characters(string input, string expectedValue)
+        public void parses_string_with_escaped_characters(string input, string expectedValue)
         {
             var result = Act(input);
 
-            result.Value.Should().Be(expectedValue);
+            result.Should().Be(expectedValue);
         }
     }
 }

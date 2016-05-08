@@ -19,7 +19,20 @@ namespace Manisero.DSLExecutor.Parser.SampleDSL.Tests.Parsing.LiteralParsersTest
         {
             var result = Act(input);
 
-            result.Value.Should().Be(expectedValue);
+            result.Value.Should().BeOfType<string>();
+            result.Value.As<string>().Should().Be(expectedValue);
+        }
+
+        [Theory]
+        [InlineData("1", 1)]
+        [InlineData("123", 123)]
+        [InlineData("001", 1)]
+        public void parses_int(string input, int expectedValue)
+        {
+            var result = Act(input);
+
+            result.Value.Should().BeOfType<int>();
+            result.Value.As<int>().Should().Be(expectedValue);
         }
     }
 }

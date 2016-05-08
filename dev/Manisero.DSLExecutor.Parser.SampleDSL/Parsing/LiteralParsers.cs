@@ -27,10 +27,13 @@ namespace Manisero.DSLExecutor.Parser.SampleDSL.Parsing
                                                                   select value).Token();
         }
 
-        public static readonly Parser<Literal> LiteralParser = StringParsers.StringParser
-                                                                            .Select(x => new Literal
-                                                                                {
-                                                                                    Value = x
-                                                                                });
+        public static readonly Parser<int> IntParser = Parse.Digit.AtLeastOnce().Text().Select(int.Parse).Token();
+
+        public static readonly Parser<Literal> LiteralParser = IntParser.Select(x => (object)x)
+                                                                        .Or(StringParsers.StringParser.Select(x => (object)x))
+                                                                        .Select(x => new Literal
+                                                                            {
+                                                                                Value = x
+                                                                            });
     }
 }

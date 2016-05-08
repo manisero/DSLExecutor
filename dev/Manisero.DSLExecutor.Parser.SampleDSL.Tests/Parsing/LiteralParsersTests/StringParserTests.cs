@@ -5,7 +5,7 @@ using Xunit;
 
 namespace Manisero.DSLExecutor.Parser.SampleDSL.Tests.Parsing
 {
-    public class LiteralParserTests
+    public class StringParserTests
     {
         private string Act(string input)
         {

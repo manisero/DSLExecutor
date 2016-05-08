@@ -24,6 +24,26 @@ namespace Manisero.DSLExecutor.Parser.SampleDSL.Tests.Parsing
         }
 
         [Theory]
+        [InlineData("_")]
+        [InlineData("-")]
+        public void rejects_characters_othen_than_letter_or_digit(string input)
+        {
+            Action act = () => Act(input);
+
+            act.ShouldThrow<Exception>();
+        }
+
+        [Theory]
+        [InlineData("1a")]
+        [InlineData("345fun")]
+        public void rejects_digit_as_first_character(string input)
+        {
+            Action act = () => Act(input);
+
+            act.ShouldThrow<Exception>();
+        }
+
+        [Theory]
         [InlineData("a(", "a")]
         public void ignores_opening_bracket(string input, string expectedResult)
         {

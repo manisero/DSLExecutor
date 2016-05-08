@@ -1,10 +1,29 @@
-﻿using Manisero.DSLExecutor.Parser.SampleDSL.Parsing.Tokens;
+﻿using System.Globalization;
+using System.Linq;
+using Manisero.DSLExecutor.Parser.SampleDSL.Parsing.Tokens;
 using Sprache;
 
 namespace Manisero.DSLExecutor.Parser.SampleDSL.Parsing
 {
     public static class LiteralParsers
     {
+        public static class DoubleParsers
+        {
+            private const char Separator = '.';
+            private static readonly CultureInfo Culture = CultureInfo.InvariantCulture;
+
+            public static readonly Parser<double> DoubleParser = (from integerPart in Parse.Digit.AtLeastOnce()
+                                                                  from separator in Parse.Char(Separator).Select(x => new[] { x })
+                                                                  from fractionalPart in Parse.Digit.AtLeastOnce()
+                                                                  select new string(integerPart.Concat(separator)
+                                                                                               .Concat(fractionalPart)
+                                                                                               .ToArray())
+                                                                 ).Select(x => double.Parse(x, Culture))
+                                                                  .Token();
+        }
+
+        public static readonly Parser<int> IntParser = Parse.Digit.AtLeastOnce().Text().Select(int.Parse).Token();
+
         public static class StringParsers
         {
             private const char Delimiter = '\'';
@@ -27,13 +46,12 @@ namespace Manisero.DSLExecutor.Parser.SampleDSL.Parsing
                                                                   select value).Token();
         }
 
-        public static readonly Parser<int> IntParser = Parse.Digit.AtLeastOnce().Text().Select(int.Parse).Token();
-
-        public static readonly Parser<Literal> LiteralParser = IntParser.Select(x => (object)x)
-                                                                        .Or(StringParsers.StringParser.Select(x => (object)x))
-                                                                        .Select(x => new Literal
-                                                                            {
-                                                                                Value = x
-                                                                            });
+        public static readonly Parser<Literal> LiteralParser = DoubleParsers.DoubleParser.Select(x => (object)x)
+                                                                            .Or(IntParser.Select(x => (object)x))
+                                                                            .Or(StringParsers.StringParser.Select(x => (object)x))
+                                                                            .Select(x => new Literal
+                                                                                {
+                                                                                    Value = x
+                                                                                });
     }
 }

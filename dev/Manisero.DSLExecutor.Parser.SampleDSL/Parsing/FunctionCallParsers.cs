@@ -10,9 +10,9 @@ namespace Manisero.DSLExecutor.Parser.SampleDSL.Parsing
         private const char ArgumentListStart = '(';
         private const char ArgumentListEnd = ')';
 
-        public static readonly Parser<string> FunctionNameParser = from firstChar in Parse.Letter
+        public static readonly Parser<string> FunctionNameParser = from firstChar in Parse.Letter.Select(x => new[] { x })
                                                                    from rest in Parse.LetterOrDigit.Many()
-                                                                   select new string(new[] { firstChar }.Concat(rest).ToArray());
+                                                                   select new string(firstChar.Concat(rest).ToArray());
 
         public static readonly Parser<IEnumerable<IFunctionArgumentToken>> FunctionArgumentsParser = LiteralParsers.LiteralParser
                                                                                                                    .Or<IFunctionArgumentToken>(Parse.Ref(() => FunctionCallParser))

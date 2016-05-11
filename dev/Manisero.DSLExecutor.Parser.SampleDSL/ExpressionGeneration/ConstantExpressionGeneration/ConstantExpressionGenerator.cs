@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using Manisero.DSLExecutor.Domain.ExpressionsDomain;
 using Manisero.DSLExecutor.Parser.SampleDSL.Parsing.Tokens;
 
@@ -11,9 +12,35 @@ namespace Manisero.DSLExecutor.Parser.SampleDSL.ExpressionGeneration.ConstantExp
 
     public class ConstantExpressionGenerator : IConstantExpressionGenerator
     {
+        private readonly Lazy<MethodInfo> _createConstantExpressionMethod;
+
+        public ConstantExpressionGenerator()
+        {
+            _createConstantExpressionMethod = new Lazy<MethodInfo>(() => GetType().GetMethod(nameof(CreateConstantExpression),
+                                                                                             BindingFlags.Instance | BindingFlags.NonPublic));
+        }
+
         public IConstantExpression Generate(Literal literal)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return (IConstantExpression)_createConstantExpressionMethod.Value
+                                                                           .MakeGenericMethod(literal.Value.GetType())
+                                                                           .Invoke(this,
+                                                                                   new object[] { literal.Value });
+            }
+            catch (TargetInvocationException exception)
+            {
+                throw exception.InnerException;
+            }
+        }
+
+        private ConstantExpression<TResult> CreateConstantExpression<TResult>(TResult value)
+        {
+            return new ConstantExpression<TResult>
+                {
+                    Value = value
+                };
         }
     }
 }

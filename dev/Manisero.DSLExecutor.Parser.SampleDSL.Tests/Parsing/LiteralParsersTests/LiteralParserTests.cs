@@ -22,6 +22,16 @@ namespace Manisero.DSLExecutor.Parser.SampleDSL.Tests.Parsing.LiteralParsersTest
         }
 
         [Theory]
+        [InlineData("true", true)]
+        public void parses_bool(string input, bool expectedValue)
+        {
+            var result = Act(input);
+
+            result.Value.Should().BeOfType<bool>();
+            result.Value.As<bool>().Should().Be(expectedValue);
+        }
+
+        [Theory]
         [InlineData("1.1", 1.1)]
         public void parses_double(string input, double expectedValue)
         {

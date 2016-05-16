@@ -7,6 +7,16 @@ namespace Manisero.DSLExecutor.Parser.SampleDSL.Parsing
 {
     public static class LiteralParsers
     {
+        private const string NullKeyword = "null";
+        private const string BoolTrueKeyword = "true";
+        private const string BoolFalseKeyword = "false";
+
+        public static readonly Parser<object> NullParser = Parse.String(NullKeyword).Select(x => (object)null).Token();
+
+        public static readonly Parser<bool> BoolParser = Parse.String(BoolTrueKeyword).Select(x => true)
+                                                              .Or(Parse.String(BoolFalseKeyword).Select(x => false))
+                                                              .Token();
+
         public static readonly Parser<int> IntParser = Parse.Digit.AtLeastOnce().Text().Select(int.Parse).Token();
 
         public static class DoubleParsers
@@ -46,14 +56,14 @@ namespace Manisero.DSLExecutor.Parser.SampleDSL.Parsing
                                                                   select value).Token();
         }
 
-        public static readonly Parser<object> NullParser = Parse.String("null").Select(x => (object)null).Token();
-
-        public static readonly Parser<Literal> LiteralParser = NullParser.Or(DoubleParsers.DoubleParser.Select(x => (object)x))
+        public static readonly Parser<Literal> LiteralParser = NullParser.Or(BoolParser.Select(x => (object)x))
+                                                                         .Or(DoubleParsers.DoubleParser.Select(x => (object)x))
                                                                          .Or(IntParser.Select(x => (object)x))
                                                                          .Or(StringParsers.StringParser.Select(x => (object)x))
                                                                          .Select(x => new Literal
                                                                              {
                                                                                  Value = x
-                                                                             });
+                                                                             })
+                                                                         .Token();
     }
 }

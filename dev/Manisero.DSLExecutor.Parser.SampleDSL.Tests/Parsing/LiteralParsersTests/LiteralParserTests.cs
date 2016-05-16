@@ -13,6 +13,14 @@ namespace Manisero.DSLExecutor.Parser.SampleDSL.Tests.Parsing.LiteralParsersTest
             return LiteralParsers.LiteralParser.Parse(input);
         }
 
+        [Fact]
+        public void parses_null()
+        {
+            var result = Act("null");
+
+            result.Value.Should().BeNull();
+        }
+
         [Theory]
         [InlineData("1.1", 1.1)]
         public void parses_double(string input, double expectedValue)

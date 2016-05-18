@@ -2,7 +2,7 @@
 
 namespace Manisero.DSLExecutor.WebApp.Controllers
 {
-    public class HomeController : Controller
+    public class AboutController : Controller
     {
         public IActionResult Index()
         {

@@ -1,13 +1,22 @@
 ﻿var Body = React.createClass({
-    render: function() {
+    handleRunClick: function () {
+        $.post('/Home/ProcessDSL',
+            {
+                DSL: this.refs.input.value
+            },
+            function (response) {
+                console.log(response);
+            });
+    },
+    render: function () {
 	    return (
             <div className="row">
                 <div className="col-md-5">
                     <h2>Input</h2>
-                    <input type="text" />
+                    <textarea ref="input" />
                 </div>
                 <div className="col-md-2">
-                    <input type="button" value="Run" />
+                    <input type="button" value="Run" onClick={this.handleRunClick} />
                 </div>
                 <div className="col-md-5">
                     <h2>Output</h2>

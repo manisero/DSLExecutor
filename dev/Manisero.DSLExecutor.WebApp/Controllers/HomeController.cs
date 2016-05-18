@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Mvc;
+﻿using Manisero.DSLExecutor.WebApp.Application;
+using Microsoft.AspNet.Mvc;
 
 namespace Manisero.DSLExecutor.WebApp.Controllers
 {
@@ -7,6 +8,13 @@ namespace Manisero.DSLExecutor.WebApp.Controllers
         public IActionResult Index()
         {
             return View();
+        }
+
+        public IActionResult ProcessDSL(DSLProcessorInput request)
+        {
+            var output = new DSLProcessor().Process(request);
+
+            return Json(output);
         }
     }
 }

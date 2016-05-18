@@ -1,0 +1,29 @@
+{
+  "siteName": {
+    "value": "dslexecutor"
+  },
+  "hostingPlanName": {
+    "value": "WestEuropeFree2"
+  },
+  "siteLocation": {
+    "value": "West Europe"
+  },
+  "sku": {
+    "value": "Free"
+  },
+  "workerSize": {
+    "value": "0"
+  },
+  "siteMode": {
+    "value": "Limited"
+  },
+  "computeMode": {
+    "value": "0"
+  },
+  "subscriptionId": {
+    "value": "738adf63-08ba-4fb4-a59a-026e6d819303"
+  },
+  "resourceGroup": {
+    "value": "Default"
+  }
+}

@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNet.Mvc;
+﻿using System;
+using System.Collections.Generic;
+using Manisero.DSLExecutor.Domain.ExpressionsDomain;
+using Microsoft.AspNet.Mvc;
 
 namespace Manisero.DSLExecutor.WebApp.Controllers
 {
@@ -11,7 +14,9 @@ namespace Manisero.DSLExecutor.WebApp.Controllers
 
         public IActionResult About()
         {
-            ViewData["Message"] = "Your application description page.";
+            var expressionResult = new DSLExecutor(new Dictionary<Type, Type>()).ExecuteExpression(new ConstantExpression<string> { Value = "test" });
+
+            ViewData["Message"] = expressionResult; // "Your application description page.";
 
             return View();
         }

@@ -22,12 +22,23 @@ namespace Manisero.DSLExecutor.WebApp.Application
 
         public DSLProcessorOutput Process(DSLProcessorInput input)
         {
-            var expression = _parser.Value.Parse(input.DSL);
-            var result = _dslExecutor.Value.ExecuteExpression(expression);
+            string result;
+
+            try
+            {
+                var expression = _parser.Value.Parse(input.DSL);
+                var expressionResult = _dslExecutor.Value.ExecuteExpression(expression);
+
+                result = expressionResult.ToString();
+            }
+            catch (Exception ex)
+            {
+                result = "ERROR: " + ex.Message;
+            }
 
             return new DSLProcessorOutput
                 {
-                    Result = result.ToString()
+                    Result = result
                 };
         }
 

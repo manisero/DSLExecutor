@@ -24,8 +24,12 @@ namespace Manisero.DSLExecutor.Parser.SampleDSL.ExpressionGeneration.ConstantExp
         {
             try
             {
+                var tResult = literal.Value != null
+                                  ? literal.Value.GetType()
+                                  : typeof(object);
+
                 return (IConstantExpression)_createConstantExpressionMethod.Value
-                                                                           .MakeGenericMethod(literal.Value.GetType())
+                                                                           .MakeGenericMethod(tResult)
                                                                            .Invoke(this,
                                                                                    new object[] { literal.Value });
             }

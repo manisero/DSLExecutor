@@ -7,7 +7,12 @@ using Sprache;
 
 namespace Manisero.DSLExecutor.Parser.SampleDSL
 {
-    public class SampleDSLParser
+    public interface ISampleDSLParser
+    {
+        IExpression Parse(string input);
+    }
+
+    public class SampleDSLParser : ISampleDSLParser
     {
         private readonly Lazy<IExpressionGenerator> _expressionGenerator;
 

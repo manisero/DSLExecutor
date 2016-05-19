@@ -63,8 +63,9 @@ namespace Manisero.DSLExecutor.WebApp.Application
                 {
                     [typeof(AddFunction)] = typeof(AddFunctionHandler),
                     [typeof(SubFunction)] = typeof(SubFunctionHandler),
-                    [typeof(LogFunction)] = typeof(LogFunctionHandler)
-                };
+                    [typeof(LogFunction)] = typeof(LogFunctionHandler),
+                    [typeof(StringFunction)] = typeof(StringFunctionHandler)
+            };
 
             return new DSLExecutor(functionTypeToHandlerTypeMap);
         }

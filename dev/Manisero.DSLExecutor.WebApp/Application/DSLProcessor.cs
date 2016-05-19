@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Manisero.DSLExecutor.Library.Math;
 using Manisero.DSLExecutor.Parser.SampleDSL;
 using Manisero.DSLExecutor.WebApp.Application.Functions;
@@ -14,7 +13,9 @@ namespace Manisero.DSLExecutor.WebApp.Application
 
     public class DSLProcessorOutput
     {
-        public ICollection<string> Result { get; set; }
+        public ICollection<string> Log { get; set; }
+
+        public string Result { get; set; }
     }
 
     public class DSLProcessor
@@ -24,28 +25,23 @@ namespace Manisero.DSLExecutor.WebApp.Application
 
         public DSLProcessorOutput Process(DSLProcessorInput input)
         {
-            ICollection<string> result;
+            string result;
 
             try
             {
                 var expression = _parser.Value.Parse(input.DSL);
                 var expressionResult = _dslExecutor.Value.ExecuteExpression(expression);
 
-                result = RequestLog.Get();
-
-                if (expressionResult != null)
-                {
-                    result = result.Concat(new[] { expressionResult.ToString() })
-                                   .ToList();
-                }
+                result = expressionResult?.ToString();
             }
             catch (Exception ex)
             {
-                result = new[] { "ERROR: " + ex.Message };
+                result = "ERROR: " + ex.Message;
             }
 
             return new DSLProcessorOutput
                 {
+                    Log = RequestLog.Get(),
                     Result = result
                 };
         }

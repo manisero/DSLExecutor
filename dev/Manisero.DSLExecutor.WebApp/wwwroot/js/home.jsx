@@ -1,7 +1,7 @@
 ﻿var Body = React.createClass({
     getInitialState: function () {
         return {
-            output: ''  
+            outputs: []
         };
     },
     handleRunClick: function () {
@@ -13,11 +13,15 @@
             },
             function (response) {
                 self.setState({
-                    output: response.Result
+                    outputs: response.Result
                 });
             });
     },
     render: function () {
+        var outputs = this.state.outputs.map(function (output, i) {
+            return <div key={i}>{output}</div>
+        });
+
 	    return (
             <div className="row">
                 <div className="col-md-5">
@@ -29,7 +33,7 @@
                 </div>
                 <div className="col-md-5">
                     <h2>Output</h2>
-                    <div>{this.state.output}</div>
+                    {outputs}
                 </div>
             </div>
 	    );

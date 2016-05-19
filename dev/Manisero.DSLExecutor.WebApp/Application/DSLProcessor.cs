@@ -31,7 +31,7 @@ namespace Manisero.DSLExecutor.WebApp.Application
                 var expression = _parser.Value.Parse(input.DSL);
                 var expressionResult = _dslExecutor.Value.ExecuteExpression(expression);
 
-                result = RequestLog.GetLog()
+                result = RequestLog.Get()
                                    .Concat(new[] { expressionResult.ToString() })
                                    .ToList();
             }

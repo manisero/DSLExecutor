@@ -5,6 +5,7 @@
             result: null
         };
     },
+    initialInput: "Log('Calculating...')\nSub(Add(1 2) 3)",
     handleRunClick: function () {
         var self = this;
 
@@ -28,7 +29,7 @@
             <div className="row">
                 <div className="col-md-5">
                     <h2>Input</h2>
-                    <textarea ref="input" style={{width: '400px', height: '300px'}} />
+                    <textarea ref="input" defaultValue={this.initialInput} style={{width: '400px', height: '300px'}} />
                 </div>
                 <div className="col-md-2">
                     <button type="button" className="btn btn-primary" style={{ marginTop: '50px' }} onClick={this.handleRunClick}>Run</button>

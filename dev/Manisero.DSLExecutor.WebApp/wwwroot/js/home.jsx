@@ -28,10 +28,10 @@
             <div className="row">
                 <div className="col-md-5">
                     <h2>Input</h2>
-                    <textarea ref="input" />
+                    <textarea ref="input" style={{width: '400px', height: '300px'}} />
                 </div>
                 <div className="col-md-2">
-                    <input type="button" value="Run" onClick={this.handleRunClick} />
+                    <button type="button" className="btn btn-primary" style={{ marginTop: '50px' }} onClick={this.handleRunClick}>Run</button>
                 </div>
                 <div className="col-md-5">
                     <h2>Result</h2>
